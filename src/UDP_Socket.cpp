@@ -22,34 +22,30 @@ uint32_t udp_cb_func (int32_t socket, const  NET_ADDR *addr, const uint8_t *buf,
 			break;
 		case tStartADC:
 			cnt_adc = 0;
-			TIM2->CR1  |= TIM_CR1_CEN;
+			sendUartCommand((uint8_t*)buf, (uint8_t*)buf+HEADER_SIZE, (len - HEADER_SIZE) );
 			break;
 		case tStopADC:
-			TIM2->CR1  &= ~TIM_CR1_CEN;
+			sendUartCommand((uint8_t*)buf, (uint8_t*)buf+HEADER_SIZE, (len - HEADER_SIZE) );
 			break;
 		case tSetFreqADC:
-			memcpy(&freq,(buf + HEADER_SIZE),4);
-			TIM2->ARR = (float)(freqP / freq) - 1;
-			TIM2->CNT = 0;
+			sendUartCommand((uint8_t*)buf, (uint8_t*)buf+HEADER_SIZE, (len - HEADER_SIZE) );
 			break;
 		case tLogADC:
-			SET_BIT(GPIOC->ODR,GPIO_PIN_2);
-			CLEAR_BIT(GPIOC->ODR,GPIO_PIN_3);
+			sendUartCommand((uint8_t*)buf, (uint8_t*)buf+HEADER_SIZE, (len - HEADER_SIZE) );
 			break;
 		case tLinADC:
-			CLEAR_BIT(GPIOC->ODR,GPIO_PIN_2);
-			CLEAR_BIT(GPIOC->ODR,GPIO_PIN_3);
+			sendUartCommand((uint8_t*)buf, (uint8_t*)buf+HEADER_SIZE, (len - HEADER_SIZE) );
 			break;
 		case tOffADC:
-			SET_BIT(GPIOC->ODR,GPIO_PIN_3);
+			sendUartCommand((uint8_t*)buf, (uint8_t*)buf+HEADER_SIZE, (len - HEADER_SIZE) );
 			break;
 		case tSetOuter:
-			p_outerdata = (OuterData*)(buf + HEADER_SIZE);
-			SetFreqOuter(p_outerdata->freqOuter,p_outerdata->Nperiod,p_outerdata->lenPSP);
-			setPSP(&p_outerdata->pspMas[0]);
+			//p_outerdata = (OuterData*)(buf + HEADER_SIZE);
+			//SetFreqOuter(p_outerdata->freqOuter,p_outerdata->Nperiod,p_outerdata->lenPSP);
+			//setPSP(&p_outerdata->pspMas[0]);
 //			p_addrADCsmpl->type = tADCsmplOuter;
 //			p_addrADCsmpl->data0 = ipos;		
-			StartOuter();
+			//StartOuter();
 			break;
 	
 		default:

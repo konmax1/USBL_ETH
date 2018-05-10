@@ -9,7 +9,7 @@
 
 
 osThreadId_t tid_Thread;                                      // thread id
-	
+osSemaphoreId_t uartTx_id;	
 MultiFifo fifoqspi(BUF_SIZE,5);
 MultiFifo fifoeth(BUF_SIZE,5);
 
@@ -19,9 +19,6 @@ void HAL_QSPI_TxCpltCallback(QSPI_HandleTypeDef *hqspi){
 
 
 
-void sendUartCommand(uint8_t* header, uint8_t* data,uint32_t len){
-	HAL_UART_Transmit_DMA(&huart4,header,HEADER_SIZE);
-}
 
 void initQSPIcomm(){
 	 QSPI_CommandTypeDef s_command;
@@ -48,6 +45,7 @@ void initQSPIcomm(){
 extern "C" void Thread (void *argument) {		
 	fifoqspi.init(0);
 	fifoeth.init(0);
+	uartTx_id = osSemaphoreNew(1,1,NULL);
   while (1) {
     osDelay(1000);    
   }
@@ -63,7 +61,22 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart){
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart){
 }
 
-
+void sendUartCommand(uint8_t* header,uint8_t* data,uint32_t len){
+	osStatus_t stat;
+	
+	stat = osSemaphoreAcquire(uartTx_id,300);
+	if(stat != osOK)
+		return;
+	HAL_UART_Transmit_DMA(&huart4,header,HEADER_SIZE);
+	
+	if(len >0){
+		osDelay(1);
+		stat = osSemaphoreAcquire(uartTx_id,300);
+		if(stat != osOK)
+			return;
+		HAL_UART_Transmit_DMA(&huart4,data,len);
+	}
+}
 
 
 

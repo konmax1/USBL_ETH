@@ -27,7 +27,21 @@ Project File Date:  05/10/2018
 <h2>Output:</h2>
 *** Using Compiler 'V6.9', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-".\Objects\USBL_ETH.axf" - 0 Error(s), 0 Warning(s).
+src/UDP_Socket.cpp(1): warning: In file included from...
+./header\thread.h(3): warning: In file included from...
+C:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/2.1.0/Drivers/STM32H7xx_HAL_Driver/Inc\stm32h7xx_hal.h(48): warning: In file included from...
+./RTE/Device/STM32H743ZITx/STCubeGenerated/Inc\stm32h7xx_hal_conf.h(229): warning: In file included from...
+C:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/2.1.0/Drivers/STM32H7xx_HAL_Driver/Inc\stm32h7xx_hal_eth.h(77): warning: '__packed__' attribute ignored [-Wignored-attributes]
+typedef __packed struct
+        ^
+C:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/2.1.0/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h(149): note: expanded from macro '__packed'
+    #define __packed __attribute__((__packed__))
+                                    ^
+1 warning generated.
+compiling UDP_Socket.cpp...
+linking...
+Program Size: Code=29992 RO-data=1160 RW-data=12596 ZI-data=43516  
+".\Objects\USBL_ETH.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 

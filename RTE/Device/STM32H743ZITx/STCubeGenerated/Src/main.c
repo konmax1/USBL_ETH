@@ -42,6 +42,7 @@
 #include "string.h"
 
 /* USER CODE BEGIN Includes */
+#include "cmsis_os2.h"                  // ::CMSIS:RTOS2
 
 /* USER CODE END Includes */
 
@@ -85,7 +86,11 @@ DMA_HandleTypeDef hdma_uart4_tx;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+#if defined ( __ARMCC_VERSION)  /* MDK ARM Compiler */
+ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT] 		__attribute__((section(".ARM.__at_0x30040000"))); /* Ethernet Rx DMA Descriptors */
+ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT] 		__attribute__((section(".ARM.__at_0x30040060"))); /* Ethernet Tx DMA Descriptors */
+uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_MAX_PACKET_SIZE] __attribute__((section(".ARM.__at_0x30040200"))) ; /* Ethernet Receive Buffer */
+#endif
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -107,7 +112,8 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-
+extern osThreadId_t tid_Thread;                                      // thread id
+void Thread (void *argument);                                 // thread function
 /* USER CODE END 0 */
 
 /**
@@ -117,8 +123,8 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
   */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
-
+  /* USER CODE BEGIN 1 */	
+	osThreadAttr_t worker_attr;
   /* USER CODE END 1 */
 
   /* Enable I-Cache-------------------------------------------------------------*/
@@ -140,7 +146,10 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
+  osKernelInitialize();
+	memset(&worker_attr, 0, sizeof(worker_attr));
+  worker_attr.stack_size = 2000; 
+	tid_Thread = osThreadNew (Thread, NULL, &worker_attr);
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -152,7 +161,9 @@ int main(void)
   MX_TIM1_Init();
   MX_QUADSPI_Init();
   /* USER CODE BEGIN 2 */
-
+  if (osKernelGetState() == osKernelReady){
+    osKernelStart(); 
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -465,6 +476,27 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM7 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM7) {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
+}
 
 /**
   * @brief  This function is executed in case of error occurrence.

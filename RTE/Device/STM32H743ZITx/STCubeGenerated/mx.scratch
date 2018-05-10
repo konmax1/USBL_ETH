@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Project>
-<ProjectName>E:\SVN\Project\USBL_ETH\RTE\Device\STM32H743ZITx\STCubeGenerated\\Untitled</ProjectName>
+<ProjectName>E:\SVN\Project\USBL_ETH\RTE\Device\STM32H743ZITx\STCubeGenerated\\STCubeGenerated</ProjectName>
 <ProjectNature>C</ProjectNature> 
 <CMSIS>Drivers\CMSIS</CMSIS>
 <HAL_Driver>C:\Users\kondratev\STM32Cube\Repository\STM32Cube_FW_H7_V1.2.0\Drivers\CMSIS</HAL_Driver>
@@ -22,7 +22,7 @@
 
 <configs>
   <config>
-    <name>Untitled</name>				
+    <name>STCubeGenerated</name>				
     <device>STM32H743ZITx</device>		 
     <heapSize>0x200</heapSize>
     <stackSize>0x400</stackSize>
@@ -157,6 +157,10 @@
 
                                 <file>
                                  <name>Src\stm32h7xx_hal_msp.c</name>
+                                </file>
+
+                                <file>
+                                 <name>Src\stm32h7xx_hal_timebase_TIM.c</name>
                                 </file>
 
 

@@ -56,6 +56,7 @@ void TIM1_UP_IRQHandler(void);
 void TIM1_TRG_COM_IRQHandler(void);
 void TIM1_CC_IRQHandler(void);
 void UART4_IRQHandler(void);
+void TIM7_IRQHandler(void);
 void QUADSPI_IRQHandler(void);
 
 #ifdef __cplusplus

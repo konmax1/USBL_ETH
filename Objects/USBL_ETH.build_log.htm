@@ -9,15 +9,15 @@ License Information: no no, no, LIC=MGXAR-KAP7L-78RFD-8FIUW-WHZEF-VU8IE
  
 Tool Versions:
 Toolchain:       MDK-ARM Professional  Version: 5.25.2.0
-Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.06 update 6 (build 750)
-Assembler:       Armasm.exe V5.06 update 6 (build 750)
-Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
-Library Manager: ArmAr.exe V5.06 update 6 (build 750)
-Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
+Toolchain Path:  C:\Keil_v5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.9
+Assembler:       Armasm.exe V6.9
+Linker/Locator:  ArmLink.exe V6.9
+Library Manager: ArmAr.exe V6.9
+Hex Converter:   FromElf.exe V6.9
 CPU DLL:         SARMCM3.DLL V5.25.2.0
 Dialog DLL:      DCM.DLL V1.17.1.0
-Target DLL:      UL2CM3.DLL V1.160.12.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.1.0
 Dialog DLL:      TCM.DLL V1.35.1.0
  
 <h2>Project:</h2>
@@ -25,51 +25,9 @@ E:\SVN\Project\USBL_ETH\USBL_ETH.uvprojx
 Project File Date:  05/10/2018
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+*** Using Compiler 'V6.9', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-compiling PHY_LAN8742A.c...
-compiling RTX_Config.c...
-compiling rtx_lib.c...
-compiling stm32h7xx_hal_eth_ex.c...
-compiling stm32h7xx_it.c...
-compiling main.c...
-compiling stm32h7xx_hal_cortex.c...
-compiling EMAC_STM32H7xx.c...
-.\RTE\Device\STM32H743ZITx\MX_Device.h(268): warning:  #2775-D: white space is required between the macro name "MX_SYS_JTMS" and its replacement text
-  #define MX_SYS_JTMS-SWDIO_Pin                   PA13
-.\RTE\Device\STM32H743ZITx\MX_Device.h(272): warning:  #2775-D: white space is required between the macro name "MX_SYS_JTCK" and its replacement text
-  #define MX_SYS_JTCK-SWCLK_Pin                   PA14
-.\RTE\Device\STM32H743ZITx\MX_Device.h(276): warning:  #2775-D: white space is required between the macro name "MX_SYS_JTDO" and its replacement text
-  #define MX_SYS_JTDO-SWO_Pin                     PB3
-.\RTE\Device\STM32H743ZITx\MX_Device.h(442): warning:  #2775-D: white space is required between the macro name "MX_USER_Btn_" and its replacement text
-  #define MX_USER_Btn_[B1]                        PC13
-.\RTE\Device\STM32H743ZITx\MX_Device.h(452): warning:  #2775-D: white space is required between the macro name "MX_LD3_" and its replacement text
-  #define MX_LD3_[Red]                            PB14
-.\RTE\Device\STM32H743ZITx\MX_Device.h(462): warning:  #2775-D: white space is required between the macro name "MX_LD2_" and its replacement text
-  #define MX_LD2_[Blue]                           PB7
-C:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.1.0\CMSIS\Driver\EMAC_STM32H7xx.c: 6 warnings, 0 errors
-compiling stm32h7xx_hal_eth.c...
-assembling startup_stm32h743xx.s...
-compiling stm32h7xx_hal.c...
-compiling system_stm32h7xx.c...
-compiling stm32h7xx_hal_pwr.c...
-compiling stm32h7xx_hal_gpio.c...
-compiling stm32h7xx_hal_pwr_ex.c...
-compiling stm32h7xx_hal_dma.c...
-compiling stm32h7xx_hal_rcc.c...
-compiling stm32h7xx_hal_rcc_ex.c...
-compiling stm32h7xx_hal_dma_ex.c...
-compiling stm32h7xx_hal_mdma.c...
-compiling stm32h7xx_hal_qspi.c...
-compiling Net_Config.c...
-compiling stm32h7xx_hal_tim_ex.c...
-compiling stm32h7xx_hal_uart_ex.c...
-compiling stm32h7xx_hal_uart.c...
-compiling stm32h7xx_hal_tim.c...
-compiling stm32h7xx_hal_msp.c...
-linking...
-Program Size: Code=27440 RO-data=1080 RW-data=5136 ZI-data=14944  
-".\Objects\USBL_ETH.axf" - 0 Error(s), 6 Warning(s).
+".\Objects\USBL_ETH.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -191,8 +149,8 @@ Package Vendor: Keil
       Source file:   ETH\PHY_LAN8742A.c
 
    * Component: Keil::Device:STM32Cube Framework:STM32CubeMX:1.0.0
-      Source file:   STCubeGenerated\Src\stm32h7xx_hal_msp.c
       Include file:  STCubeGenerated\Inc\stm32h7xx_hal_conf.h
+      Source file:   STCubeGenerated\Src\stm32h7xx_hal_msp.c
       Include file:  MX_Device.h
 
    * Component: Keil::Device:STM32Cube HAL:Common:1.1.0
@@ -239,7 +197,7 @@ Package Vendor: Keil
       Include file:  Drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h7xx.h
       Source file:   Drivers\CMSIS\Device\ST\STM32H7xx\Source\Templates\arm\startup_stm32h743xx.s
       Source file:   Drivers\CMSIS\Device\ST\STM32H7xx\Source\Templates\system_stm32h7xx.c
-Build Time Elapsed:  00:01:03
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

@@ -1,0 +1,4 @@
+load STM32H743ZITx 
+project name STCubeGenerated 
+project toolchain "MDK-ARM V5" 
+project path "E:\SVN\Project\USBL_ETH\RTE\Device\STM32H743ZITx\" 

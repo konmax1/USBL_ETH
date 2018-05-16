@@ -133,12 +133,12 @@
             <UseExternalTool>0</UseExternalTool>
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
-            <Capability>0</Capability>
-            <DriverSelection>-1</DriverSelection>
+            <Capability>1</Capability>
+            <DriverSelection>4096</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>ARM_MATH_CM7,__DSP_PRESENT</Define>
               <Undefine></Undefine>
-              <IncludePath>.\header</IncludePath>
+              <IncludePath>.\header;..\MultiFifo</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -481,16 +481,6 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>MultiFifo.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\MultiFifo.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>MultiFifo.h</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\header\MultiFifo.h</FilePath>
-            </File>
-            <File>
               <FileName>Thread.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\Thread.cpp</FilePath>
@@ -514,6 +504,16 @@
               <FileName>UDP_Socket.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\UDP_Socket.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>MultiFifo.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\MultiFifo\MultiFifo.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>MultiFifo.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\MultiFifo\MultiFifo.h</FilePath>
             </File>
           </Files>
         </Group>

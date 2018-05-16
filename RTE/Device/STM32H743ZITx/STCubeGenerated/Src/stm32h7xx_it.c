@@ -40,6 +40,7 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern MDMA_HandleTypeDef hmdma_quadspi_fifo_th;
 extern QSPI_HandleTypeDef hqspi;
 extern DMA_HandleTypeDef hdma_tim1_ch3;
 extern TIM_HandleTypeDef htim1;
@@ -216,6 +217,20 @@ void QUADSPI_IRQHandler(void)
   /* USER CODE BEGIN QUADSPI_IRQn 1 */
 
   /* USER CODE END QUADSPI_IRQn 1 */
+}
+
+/**
+* @brief This function handles MDMA global interrupt.
+*/
+void MDMA_IRQHandler(void)
+{
+  /* USER CODE BEGIN MDMA_IRQn 0 */
+
+  /* USER CODE END MDMA_IRQn 0 */
+  HAL_MDMA_IRQHandler(&hmdma_quadspi_fifo_th);
+  /* USER CODE BEGIN MDMA_IRQn 1 */
+
+  /* USER CODE END MDMA_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

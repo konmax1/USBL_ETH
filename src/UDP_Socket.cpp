@@ -7,8 +7,8 @@ int32_t connStat = -1;
 
 NET_ADDR addr_pc; 
 volatile uint16_t cnt_adc = 0;
-extern volatile uint32_t ipos;
 
+extern osSemaphoreId_t qspiSem_id;	
 // Notify the user application about UDP socket events.
 uint32_t udp_cb_func (int32_t socket, const  NET_ADDR *addr, const uint8_t *buf, uint32_t len) {
 	
@@ -63,8 +63,14 @@ uint32_t udp_cb_func (int32_t socket, const  NET_ADDR *addr, const uint8_t *buf,
  
 void fillQueue(){
 	uint8_t *mas;
-	uint32_t addr;
-	netBuf* p_buf;
+	int32_t startval = fifoqspi.getCurrentSize();
+	for(int i = startval; i < fifoqspi.getBufNumber(); i++){
+		mas = netUDP_GetBuffer(BUF_SIZE);	
+		if(mas){
+			fifoqspi.putBuf((uint32_t)mas);
+		}
+		
+	}
 //	while( osMessageQueueGetCount(adc_buf) < NUMBER_BUF){
 //		mas = netUDP_GetBuffer(BUF_SIZE);	
 //		addr = (uint32_t)mas;		
@@ -96,11 +102,14 @@ void udp_Task(void *argument) {
 //	adc_buf = osMessageQueueNew(NUMBER_BUF, sizeof(uint8_t*), NULL);
 //	send_buf = osMessageQueueNew(NUMBER_BUF, sizeof(uint8_t*), NULL);
 	fillQueue();
+	osSemaphoreRelease(qspiSem_id);
 	while(1){
 		addr_send = fifoeth.getBuf();
 		p_buf = (netBuf*)addr_send;
+		p_buf->type=tADCsmpl;
 		p_buf->counter=cnt_adc;
 		cnt_adc++;	
 		nstat = netUDP_Send (udp_sock, &addr_pc, (uint8_t*)addr_send, BUF_SIZE);
+		fillQueue();		
 	}
 }

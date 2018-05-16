@@ -95,6 +95,7 @@ uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_MAX_PACKET_SIZE] __attribute__((section(".A
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+static void MPU_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_MDMA_Init(void);
@@ -123,9 +124,12 @@ void Thread (void *argument);                                 // thread function
   */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */	
+  /* USER CODE BEGIN 1 */
 	osThreadAttr_t worker_attr;
   /* USER CODE END 1 */
+
+  /* MPU Configuration----------------------------------------------------------*/
+  MPU_Config();
 
   /* Enable I-Cache-------------------------------------------------------------*/
   SCB_EnableICache();
@@ -301,7 +305,7 @@ static void MX_QUADSPI_Init(void)
 
   /* QUADSPI parameter configuration*/
   hqspi.Instance = QUADSPI;
-  hqspi.Init.ClockPrescaler = 9;
+  hqspi.Init.ClockPrescaler = 49;
   hqspi.Init.FifoThreshold = 16;
   hqspi.Init.SampleShifting = QSPI_SAMPLE_SHIFTING_NONE;
   hqspi.Init.FlashSize = 20;
@@ -381,7 +385,7 @@ static void MX_UART4_Init(void)
 {
 
   huart4.Instance = UART4;
-  huart4.Init.BaudRate = 3900000;
+  huart4.Init.BaudRate = 1000000;
   huart4.Init.WordLength = UART_WORDLENGTH_8B;
   huart4.Init.StopBits = UART_STOPBITS_1;
   huart4.Init.Parity = UART_PARITY_NONE;
@@ -432,6 +436,11 @@ static void MX_MDMA_Init(void)
   __HAL_RCC_MDMA_CLK_ENABLE();
   /* Local variables */
 
+  /* MDMA interrupt initialization */
+  /* MDMA_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(MDMA_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(MDMA_IRQn);
+
 }
 
 /** Configure pins as 
@@ -477,6 +486,34 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE END 4 */
 
+/* MPU Configuration */
+
+void MPU_Config(void)
+{
+  MPU_Region_InitTypeDef MPU_InitStruct;
+
+  /* Disables the MPU */
+  HAL_MPU_Disable();
+    /**Initializes and configures the Region and the memory to be protected 
+    */
+  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+  MPU_InitStruct.Number = MPU_REGION_NUMBER0;
+  MPU_InitStruct.BaseAddress = 0x30040000;
+  MPU_InitStruct.Size = MPU_REGION_SIZE_256B;
+  MPU_InitStruct.SubRegionDisable = 0x0;
+  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
+  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
+
+  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+  /* Enables the MPU */
+  HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
+
+}
 /**
   * @brief  Period elapsed callback in non blocking mode
   * @note   This function is called  when TIM7 interrupt took place, inside

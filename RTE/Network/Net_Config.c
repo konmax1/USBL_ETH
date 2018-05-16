@@ -21,7 +21,7 @@
 //   <i>This is the size of a memory pool in bytes. Buffers for
 //   <i>network packets are allocated from this memory pool.
 //   <i>Default: 12000 bytes
-#define NET_MEM_POOL_SIZE       12000
+#define NET_MEM_POOL_SIZE       20000
 
 //   <q>Start System Services
 //   <i>If enabled, the system will automatically start server services

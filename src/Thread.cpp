@@ -9,15 +9,30 @@
 
 
 osThreadId_t tid_Thread;                                      // thread id
+osThreadId_t tid_udp_Task; 
+osThreadId_t tid_qspi_Task; 
 osSemaphoreId_t uartTx_id;	
-MultiFifo fifoqspi(BUF_SIZE,5);
-MultiFifo fifoeth(BUF_SIZE,5);
+osSemaphoreId_t qspiSem_id;	
+
+void udp_Task(void *argument) ;
+void qspi_Task(void *argument) ;
+MultiFifo fifoqspi(BUF_SIZE,5, "QueueQSPI");
+MultiFifo fifoeth(BUF_SIZE,5, "QueueEth");
 
 void HAL_QSPI_TxCpltCallback(QSPI_HandleTypeDef *hqspi){
 
 }
 
+void HAL_QSPI_RxCpltCallback(QSPI_HandleTypeDef *hqspi){	
+	fifoeth.putBuf(MDMA_Channel0->CDAR - 1452);	
+	osSemaphoreRelease(qspiSem_id);
+			
+}
 
+void HAL_QSPI_ErrorCallback(QSPI_HandleTypeDef *hqspi){
+	osSemaphoreRelease(qspiSem_id);
+
+}
 
 
 void initQSPIcomm(){
@@ -42,23 +57,48 @@ void initQSPIcomm(){
   HAL_QSPI_Command(&hqspi, &s_command, HAL_QPSI_TIMEOUT_DEFAULT_VALUE);
 }
 
+void qspi_Task (void *argument) {		
+	uint32_t addr_rec;
+	initQSPIcomm();
+	osSemaphoreAttr_t attr;
+	memset(&attr,0,sizeof(attr));
+	attr.name = "QSPI_RX";
+	qspiSem_id = osSemaphoreNew(1,0,&attr);
+  while (1) {	
+		osSemaphoreAcquire(qspiSem_id,osWaitForever);
+		addr_rec = fifoqspi.getBuf();
+		if(addr_rec){
+			HAL_QSPI_Receive_DMA(&hqspi,((uint8_t*)addr_rec) + 12);
+		}
+  }
+}
+
 extern "C" void Thread (void *argument) {		
+	osThreadAttr_t worker_attr;
+	memset(&worker_attr, 0, sizeof(worker_attr));
+  worker_attr.stack_size = 2000; 
 	fifoqspi.init(0);
 	fifoeth.init(0);
 	uartTx_id = osSemaphoreNew(1,1,NULL);
+	
+	tid_udp_Task = osThreadNew (udp_Task, NULL, &worker_attr);	
+	worker_attr.priority = osPriorityHigh;
+	tid_qspi_Task = osThreadNew (qspi_Task, NULL, &worker_attr);	
   while (1) {
     osDelay(1000);    
   }
 }
 
+
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 }
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart){
-
+	osSemaphoreRelease(uartTx_id);
 }
 
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart){
+	osSemaphoreRelease(uartTx_id);
 }
 
 void sendUartCommand(uint8_t* header,uint8_t* data,uint32_t len){

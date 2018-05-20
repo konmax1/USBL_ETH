@@ -72,14 +72,12 @@ extern TIM_HandleTypeDef htim1;
 
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream2;
 
-extern QSPI_HandleTypeDef hqspi;
-
-extern MDMA_HandleTypeDef hmdma_quadspi_fifo_th;
-
 extern UART_HandleTypeDef huart4;
 
 extern MultiFifo fifoqspi;
+
 extern MultiFifo fifoeth;
 
+extern SPI_HandleTypeDef hspi1;
 
 

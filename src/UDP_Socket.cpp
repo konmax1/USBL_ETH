@@ -101,6 +101,7 @@ void udp_Task(void *argument) {
 	
 //	adc_buf = osMessageQueueNew(NUMBER_BUF, sizeof(uint8_t*), NULL);
 //	send_buf = osMessageQueueNew(NUMBER_BUF, sizeof(uint8_t*), NULL);
+	volatile int ff = 0;
 	fillQueue();
 	osSemaphoreRelease(qspiSem_id);
 	while(1){
@@ -110,6 +111,9 @@ void udp_Task(void *argument) {
 		p_buf->counter=cnt_adc;
 		cnt_adc++;	
 		nstat = netUDP_Send (udp_sock, &addr_pc, (uint8_t*)addr_send, BUF_SIZE);
+		if(nstat != netOK){
+			ff++;
+		}
 		fillQueue();		
 	}
 }

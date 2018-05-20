@@ -19,47 +19,66 @@ void qspi_Task(void *argument) ;
 MultiFifo fifoqspi(BUF_SIZE,5, "QueueQSPI");
 MultiFifo fifoeth(BUF_SIZE,5, "QueueEth");
 
-void HAL_QSPI_TxCpltCallback(QSPI_HandleTypeDef *hqspi){
+//void HAL_QSPI_TxCpltCallback(QSPI_HandleTypeDef *hqspi){
 
+//}
+
+//void HAL_QSPI_RxCpltCallback(QSPI_HandleTypeDef *hqspi){	
+//	fifoeth.putBuf(MDMA_Channel0->CDAR - 1452);	
+//	osSemaphoreRelease(qspiSem_id);
+//			
+//}
+
+//void HAL_QSPI_ErrorCallback(QSPI_HandleTypeDef *hqspi){
+//	osSemaphoreRelease(qspiSem_id);
+
+//}
+
+void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi){
 }
 
-void HAL_QSPI_RxCpltCallback(QSPI_HandleTypeDef *hqspi){	
-	fifoeth.putBuf(MDMA_Channel0->CDAR - 1452);	
+void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi){
+	fifoeth.putBuf(DMA1_Stream2->M0AR - 12);	
 	osSemaphoreRelease(qspiSem_id);
-			
 }
 
-void HAL_QSPI_ErrorCallback(QSPI_HandleTypeDef *hqspi){
+void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi){
 	osSemaphoreRelease(qspiSem_id);
-
 }
 
-
-void initQSPIcomm(){
-	 QSPI_CommandTypeDef s_command;
-	
-  s_command.Instruction       = 4;
-  s_command.Address           = 0;
-	s_command.AlternateBytes		= 2;	
-  s_command.AddressSize       = QSPI_ADDRESS_8_BITS;
-	s_command.AddressSize				= QSPI_ALTERNATE_BYTES_8_BITS;	
-  s_command.DummyCycles       = 0;
-	s_command.InstructionMode   = QSPI_INSTRUCTION_NONE;
-	s_command.AddressMode       = QSPI_ADDRESS_NONE;
-  s_command.AlternateByteMode = QSPI_ALTERNATE_BYTES_NONE;
-  s_command.DataMode          = QSPI_DATA_4_LINES;
-  s_command.NbData            = 1440;
-	s_command.DdrMode						= QSPI_DDR_MODE_DISABLE;
-	s_command.DdrHoldHalfCycle	= QSPI_DDR_HHC_ANALOG_DELAY;
-  s_command.SIOOMode          = QSPI_SIOO_INST_EVERY_CMD;
-  
-  /* Configure the command */
-  HAL_QSPI_Command(&hqspi, &s_command, HAL_QPSI_TIMEOUT_DEFAULT_VALUE);
+void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi){
+	osSemaphoreRelease(qspiSem_id);
 }
+
+void HAL_SPI_AbortCpltCallback(SPI_HandleTypeDef *hspi){
+	osSemaphoreRelease(qspiSem_id);
+}
+
+//void initQSPIcomm(){
+//	 QSPI_CommandTypeDef s_command;
+//	
+//  s_command.Instruction       = 4;
+//  s_command.Address           = 0;
+//	s_command.AlternateBytes		= 2;	
+//  s_command.AddressSize       = QSPI_ADDRESS_8_BITS;
+//	s_command.AddressSize				= QSPI_ALTERNATE_BYTES_8_BITS;	
+//  s_command.DummyCycles       = 0;
+//	s_command.InstructionMode   = QSPI_INSTRUCTION_NONE;
+//	s_command.AddressMode       = QSPI_ADDRESS_NONE;
+//  s_command.AlternateByteMode = QSPI_ALTERNATE_BYTES_NONE;
+//  s_command.DataMode          = QSPI_DATA_4_LINES;
+//  s_command.NbData            = 1440;
+//	s_command.DdrMode						= QSPI_DDR_MODE_DISABLE;
+//	s_command.DdrHoldHalfCycle	= QSPI_DDR_HHC_ANALOG_DELAY;
+//  s_command.SIOOMode          = QSPI_SIOO_INST_EVERY_CMD;
+//  
+//  /* Configure the command */
+//  HAL_QSPI_Command(&hqspi, &s_command, HAL_QPSI_TIMEOUT_DEFAULT_VALUE);
+//}
 
 void qspi_Task (void *argument) {		
 	uint32_t addr_rec;
-	initQSPIcomm();
+	//initQSPIcomm();
 	osSemaphoreAttr_t attr;
 	memset(&attr,0,sizeof(attr));
 	attr.name = "QSPI_RX";
@@ -68,7 +87,8 @@ void qspi_Task (void *argument) {
 		osSemaphoreAcquire(qspiSem_id,osWaitForever);
 		addr_rec = fifoqspi.getBuf();
 		if(addr_rec){
-			HAL_QSPI_Receive_DMA(&hqspi,((uint8_t*)addr_rec) + 12);
+			//HAL_QSPI_Receive_DMA(&hqspi,((uint8_t*)addr_rec) + 12);
+			HAL_SPI_Receive_DMA(&hspi1,((uint8_t*)addr_rec) + 12,1440/4);
 		}
   }
 }

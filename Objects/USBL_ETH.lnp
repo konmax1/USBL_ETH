@@ -34,6 +34,8 @@
 ".\objects\stm32h7xx_hal_uart.o"
 ".\objects\stm32h7xx_hal_uart_ex.o"
 ".\objects\stm32h7xx_hal_msp.o"
+".\objects\stm32h7xx_hal_spi.o"
+".\objects\stm32h7xx_hal_spi_ex.o"
 "C:\Keil_v5\ARM\PACK\Keil\MDK-Middleware\7.6.0\Network\Lib\ARM\Net_CM3_L.lib"
 ".\objects\net_config.o"
 --strict --scatter ".\Objects\USBL_ETH.sct"

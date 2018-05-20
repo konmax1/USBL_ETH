@@ -670,6 +670,12 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </component>
+      <component Cclass="Device" Cgroup="STM32Cube HAL" Csub="SPI" Cvendor="Keil" Cversion="1.2.0" condition="STM32H7 HAL DMA">
+        <package name="STM32H7xx_DFP" schemaVersion="1.4" url="http://www.keil.com/pack" vendor="Keil" version="2.1.0"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </component>
       <component Cclass="Device" Cgroup="STM32Cube HAL" Csub="TIM" Cvendor="Keil" Cversion="1.2.0" condition="STM32H7 HAL DMA">
         <package name="STM32H7xx_DFP" schemaVersion="1.4" url="http://www.keil.com/pack" vendor="Keil" version="2.1.0"/>
         <targetInfos>

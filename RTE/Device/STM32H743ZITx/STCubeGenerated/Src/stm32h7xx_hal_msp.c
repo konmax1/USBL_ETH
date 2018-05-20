@@ -39,7 +39,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h7xx_hal.h"
 
-extern MDMA_HandleTypeDef hmdma_quadspi_fifo_th;
+extern DMA_HandleTypeDef hdma_spi1_rx;
+
+extern DMA_HandleTypeDef hdma_spi1_tx;
 
 extern DMA_HandleTypeDef hdma_tim1_ch3;
 
@@ -184,113 +186,122 @@ void HAL_ETH_MspDeInit(ETH_HandleTypeDef* heth)
 
 }
 
-void HAL_QSPI_MspInit(QSPI_HandleTypeDef* hqspi)
+void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
 {
 
   GPIO_InitTypeDef GPIO_InitStruct;
-  if(hqspi->Instance==QUADSPI)
+  if(hspi->Instance==SPI1)
   {
-  /* USER CODE BEGIN QUADSPI_MspInit 0 */
+  /* USER CODE BEGIN SPI1_MspInit 0 */
 
-  /* USER CODE END QUADSPI_MspInit 0 */
+  /* USER CODE END SPI1_MspInit 0 */
     /* Peripheral clock enable */
-    __HAL_RCC_QSPI_CLK_ENABLE();
+    __HAL_RCC_SPI1_CLK_ENABLE();
   
-    /**QUADSPI GPIO Configuration    
-    PF6     ------> QUADSPI_BK1_IO3
-    PF7     ------> QUADSPI_BK1_IO2
-    PF8     ------> QUADSPI_BK1_IO0
-    PF9     ------> QUADSPI_BK1_IO1
-    PF10     ------> QUADSPI_CLK
-    PB6     ------> QUADSPI_BK1_NCS 
+    /**SPI1 GPIO Configuration    
+    PA4     ------> SPI1_NSS
+    PA5     ------> SPI1_SCK
+    PA6     ------> SPI1_MISO
+    PB5     ------> SPI1_MOSI 
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_10;
+    GPIO_InitStruct.Pin = GPIO_PIN_4;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF9_QUADSPI;
-    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+    GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;
+    GPIO_InitStruct.Pin = GPIO_PIN_5|GPIO_PIN_6;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF10_QUADSPI;
-    HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+    GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = GPIO_PIN_6;
+    GPIO_InitStruct.Pin = GPIO_PIN_5;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF10_QUADSPI;
+    GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-    /* QUADSPI MDMA Init */
-    /* QUADSPI_FIFO_TH Init */
-    hmdma_quadspi_fifo_th.Instance = MDMA_Channel0;
-    hmdma_quadspi_fifo_th.Init.Request = MDMA_REQUEST_QUADSPI_FIFO_TH;
-    hmdma_quadspi_fifo_th.Init.TransferTriggerMode = MDMA_BUFFER_TRANSFER;
-    hmdma_quadspi_fifo_th.Init.Priority = MDMA_PRIORITY_VERY_HIGH;
-    hmdma_quadspi_fifo_th.Init.Endianness = MDMA_LITTLE_ENDIANNESS_PRESERVE;
-    hmdma_quadspi_fifo_th.Init.SourceInc = MDMA_SRC_INC_BYTE;
-    hmdma_quadspi_fifo_th.Init.DestinationInc = MDMA_DEST_INC_DISABLE;
-    hmdma_quadspi_fifo_th.Init.SourceDataSize = MDMA_SRC_DATASIZE_BYTE;
-    hmdma_quadspi_fifo_th.Init.DestDataSize = MDMA_DEST_DATASIZE_BYTE;
-    hmdma_quadspi_fifo_th.Init.DataAlignment = MDMA_DATAALIGN_PACKENABLE;
-    hmdma_quadspi_fifo_th.Init.BufferTransferLength = 16;
-    hmdma_quadspi_fifo_th.Init.SourceBurst = MDMA_SOURCE_BURST_SINGLE;
-    hmdma_quadspi_fifo_th.Init.DestBurst = MDMA_DEST_BURST_SINGLE;
-    hmdma_quadspi_fifo_th.Init.SourceBlockAddressOffset = 0;
-    hmdma_quadspi_fifo_th.Init.DestBlockAddressOffset = 0;
-    if (HAL_MDMA_Init(&hmdma_quadspi_fifo_th) != HAL_OK)
+    /* SPI1 DMA Init */
+    /* SPI1_RX Init */
+    hdma_spi1_rx.Instance = DMA1_Stream2;
+    hdma_spi1_rx.Init.Request = DMA_REQUEST_SPI1_RX;
+    hdma_spi1_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
+    hdma_spi1_rx.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_spi1_rx.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_spi1_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+    hdma_spi1_rx.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+    hdma_spi1_rx.Init.Mode = DMA_NORMAL;
+    hdma_spi1_rx.Init.Priority = DMA_PRIORITY_HIGH;
+    hdma_spi1_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+    if (HAL_DMA_Init(&hdma_spi1_rx) != HAL_OK)
     {
       _Error_Handler(__FILE__, __LINE__);
     }
 
-    __HAL_LINKDMA(hqspi,hmdma,hmdma_quadspi_fifo_th);
+    __HAL_LINKDMA(hspi,hdmarx,hdma_spi1_rx);
 
-    /* QUADSPI interrupt Init */
-    HAL_NVIC_SetPriority(QUADSPI_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(QUADSPI_IRQn);
-  /* USER CODE BEGIN QUADSPI_MspInit 1 */
+    /* SPI1_TX Init */
+    hdma_spi1_tx.Instance = DMA1_Stream3;
+    hdma_spi1_tx.Init.Request = DMA_REQUEST_SPI1_TX;
+    hdma_spi1_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
+    hdma_spi1_tx.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_spi1_tx.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_spi1_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+    hdma_spi1_tx.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+    hdma_spi1_tx.Init.Mode = DMA_NORMAL;
+    hdma_spi1_tx.Init.Priority = DMA_PRIORITY_HIGH;
+    hdma_spi1_tx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+    if (HAL_DMA_Init(&hdma_spi1_tx) != HAL_OK)
+    {
+      _Error_Handler(__FILE__, __LINE__);
+    }
 
-  /* USER CODE END QUADSPI_MspInit 1 */
+    __HAL_LINKDMA(hspi,hdmatx,hdma_spi1_tx);
+
+    /* SPI1 interrupt Init */
+    HAL_NVIC_SetPriority(SPI1_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(SPI1_IRQn);
+  /* USER CODE BEGIN SPI1_MspInit 1 */
+
+  /* USER CODE END SPI1_MspInit 1 */
   }
 
 }
 
-void HAL_QSPI_MspDeInit(QSPI_HandleTypeDef* hqspi)
+void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
 {
 
-  if(hqspi->Instance==QUADSPI)
+  if(hspi->Instance==SPI1)
   {
-  /* USER CODE BEGIN QUADSPI_MspDeInit 0 */
+  /* USER CODE BEGIN SPI1_MspDeInit 0 */
 
-  /* USER CODE END QUADSPI_MspDeInit 0 */
+  /* USER CODE END SPI1_MspDeInit 0 */
     /* Peripheral clock disable */
-    __HAL_RCC_QSPI_CLK_DISABLE();
+    __HAL_RCC_SPI1_CLK_DISABLE();
   
-    /**QUADSPI GPIO Configuration    
-    PF6     ------> QUADSPI_BK1_IO3
-    PF7     ------> QUADSPI_BK1_IO2
-    PF8     ------> QUADSPI_BK1_IO0
-    PF9     ------> QUADSPI_BK1_IO1
-    PF10     ------> QUADSPI_CLK
-    PB6     ------> QUADSPI_BK1_NCS 
+    /**SPI1 GPIO Configuration    
+    PA4     ------> SPI1_NSS
+    PA5     ------> SPI1_SCK
+    PA6     ------> SPI1_MISO
+    PB5     ------> SPI1_MOSI 
     */
-    HAL_GPIO_DeInit(GPIOF, GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9 
-                          |GPIO_PIN_10);
+    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6);
 
-    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_6);
+    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_5);
 
-    /* QUADSPI MDMA DeInit */
-    HAL_MDMA_DeInit(hqspi->hmdma);
+    /* SPI1 DMA DeInit */
+    HAL_DMA_DeInit(hspi->hdmarx);
+    HAL_DMA_DeInit(hspi->hdmatx);
 
-    /* QUADSPI interrupt DeInit */
-    HAL_NVIC_DisableIRQ(QUADSPI_IRQn);
-  /* USER CODE BEGIN QUADSPI_MspDeInit 1 */
+    /* SPI1 interrupt DeInit */
+    HAL_NVIC_DisableIRQ(SPI1_IRQn);
+  /* USER CODE BEGIN SPI1_MspDeInit 1 */
 
-  /* USER CODE END QUADSPI_MspDeInit 1 */
+  /* USER CODE END SPI1_MspDeInit 1 */
   }
 
 }
@@ -308,7 +319,7 @@ void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* htim_pwm)
   
     /* TIM1 DMA Init */
     /* TIM1_CH3 Init */
-    hdma_tim1_ch3.Instance = DMA1_Stream2;
+    hdma_tim1_ch3.Instance = DMA1_Stream4;
     hdma_tim1_ch3.Init.Request = DMA_REQUEST_TIM1_CH3;
     hdma_tim1_ch3.Init.Direction = DMA_PERIPH_TO_MEMORY;
     hdma_tim1_ch3.Init.PeriphInc = DMA_PINC_DISABLE;
@@ -316,7 +327,7 @@ void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* htim_pwm)
     hdma_tim1_ch3.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
     hdma_tim1_ch3.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
     hdma_tim1_ch3.Init.Mode = DMA_NORMAL;
-    hdma_tim1_ch3.Init.Priority = DMA_PRIORITY_LOW;
+    hdma_tim1_ch3.Init.Priority = DMA_PRIORITY_VERY_HIGH;
     hdma_tim1_ch3.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
     if (HAL_DMA_Init(&hdma_tim1_ch3) != HAL_OK)
     {

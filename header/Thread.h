@@ -11,7 +11,9 @@
 #define HEADER_SIZE (12)
 #define SMPL_CNT (90)
 #define BUF_SIZE (SMPL_CNT * 2 * 8 + HEADER_SIZE)
-
+#define PacketSizeBytes (SMPL_CNT * 16 + HEADER_SIZE)
+#define PacketSizeShort ( PacketSizeBytes / 2 )
+#define PacketSizeWord 	( PacketSizeBytes / 4 )
 
 struct adcBuffer{
 	int16_t mas[SMPL_CNT][8];
@@ -67,10 +69,6 @@ struct netBuf{
 void sendUartCommand(uint8_t* header, uint8_t* data,uint32_t len);
 
 extern osThreadId_t tid_Thread;                                      // thread id
-
-extern TIM_HandleTypeDef htim1;
-
-extern DMA_HandleTypeDef hdma_memtomem_dma2_stream2;
 
 extern UART_HandleTypeDef huart4;
 

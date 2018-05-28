@@ -44,7 +44,7 @@
 //     <i> Defines the combined global dynamic memory size.
 //     <i> Default: 4096
 #ifndef OS_DYNAMIC_MEM_SIZE
-#define OS_DYNAMIC_MEM_SIZE         40000
+#define OS_DYNAMIC_MEM_SIZE         20000
 #endif
  
 //   <o>Kernel Tick Frequency [Hz] <1-1000000>
@@ -141,7 +141,7 @@
 //   <q>Object Memory usage counters
 //   <i> Enables object memory usage counters.
 #ifndef OS_OBJ_MEM_USAGE
-#define OS_OBJ_MEM_USAGE            0
+#define OS_OBJ_MEM_USAGE            1
 #endif
  
 // </h>

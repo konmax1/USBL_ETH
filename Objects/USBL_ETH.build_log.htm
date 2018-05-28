@@ -22,31 +22,12 @@ Dialog DLL:      TCM.DLL V1.35.1.0
  
 <h2>Project:</h2>
 E:\SVN\Project\USBL_ETH\USBL_ETH.uvprojx
-Project File Date:  05/18/2018
+Project File Date:  05/24/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.9', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Build target 'Target 1'
-src/UDP_Socket.cpp(1): warning: In file included from...
-./header\thread.h(3): warning: In file included from...
-C:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/2.1.0/Drivers/STM32H7xx_HAL_Driver/Inc\stm32h7xx_hal.h(48): warning: In file included from...
-./RTE/Device/STM32H743ZITx/STCubeGenerated/Inc\stm32h7xx_hal_conf.h(229): warning: In file included from...
-C:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/2.1.0/Drivers/STM32H7xx_HAL_Driver/Inc\stm32h7xx_hal_eth.h(77): warning: '__packed__' attribute ignored [-Wignored-attributes]
-typedef __packed struct
-        ^
-C:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/2.1.0/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h(149): note: expanded from macro '__packed'
-    #define __packed __attribute__((__packed__))
-                                    ^
-src/UDP_Socket.cpp(1): warning: In file included from...
-./header\thread.h(7): warning: In file included from...
-../MultiFifo\Multififo.h(21): warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
-                MultiFifo(int32_t _bufsize, int32_t _bufnumber,char* _name = "Queue");
-                                                                             ^
-2 warnings generated.
-compiling UDP_Socket.cpp...
-linking...
-Program Size: Code=57402 RO-data=2142 RW-data=12644 ZI-data=66516  
-".\Objects\USBL_ETH.axf" - 0 Error(s), 2 Warning(s).
+".\Objects\USBL_ETH.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -58,7 +39,6 @@ Package Vendor: ARM
    * Component: Ethernet PHY Version: 2.1.0
    * Component: RTOS2 Version: 2.1.2
    * Component: CORE Version: 5.1.1
-   * Component: DSP Version: 1.5.2
    * Component: Keil RTX5 Variant: Library Version: 5.3.0
 
 Package Vendor: ARM
@@ -92,9 +72,7 @@ Package Vendor: Keil
    * Component: DMA Version: 1.2.0
    * Component: ETH Version: 1.2.0
    * Component: GPIO Version: 1.2.0
-   * Component: MDMA Version: 1.2.0
    * Component: PWR Version: 1.2.0
-   * Component: QSPI Version: 1.2.0
    * Component: RCC Version: 1.2.0
    * Component: SPI Version: 1.2.0
    * Component: TIM Version: 1.2.0
@@ -129,10 +107,6 @@ Package Vendor: Keil
    * Component: ::Device:STM32Cube Framework:1.1.0 (API)
 
    * Component: ARM::CMSIS:CORE:5.1.1
-
-   * Component: ARM::CMSIS:DSP:1.5.2
-      Include file:  CMSIS\Include\arm_math.h
-      Library file:  CMSIS\Lib\ARM\arm_cortexM7lfdp_math.lib
 
    * Component: ARM::CMSIS:RTOS2:Keil RTX5:Library:5.3.0
       Include file:  CMSIS\RTOS2\RTX\Include\rtx_os.h
@@ -191,15 +165,9 @@ Package Vendor: Keil
    * Component: Keil::Device:STM32Cube HAL:GPIO:1.2.0
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_gpio.c
 
-   * Component: Keil::Device:STM32Cube HAL:MDMA:1.2.0
-      Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_mdma.c
-
    * Component: Keil::Device:STM32Cube HAL:PWR:1.2.0
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_pwr.c
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_pwr_ex.c
-
-   * Component: Keil::Device:STM32Cube HAL:QSPI:1.2.0
-      Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_qspi.c
 
    * Component: Keil::Device:STM32Cube HAL:RCC:1.2.0
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_rcc.c
@@ -221,7 +189,7 @@ Package Vendor: Keil
       Include file:  Drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h7xx.h
       Source file:   Drivers\CMSIS\Device\ST\STM32H7xx\Source\Templates\arm\startup_stm32h743xx.s
       Source file:   Drivers\CMSIS\Device\ST\STM32H7xx\Source\Templates\system_stm32h7xx.c
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

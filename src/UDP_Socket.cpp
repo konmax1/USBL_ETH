@@ -1,6 +1,5 @@
 #include "thread.h"
 #include "rl_net.h"
-#include "pwmOuter.h"
  
 int32_t udp_sock;                       // UDP socket handle
 int32_t connStat = -1;
@@ -40,7 +39,8 @@ uint32_t udp_cb_func (int32_t socket, const  NET_ADDR *addr, const uint8_t *buf,
 			sendUartCommand((uint8_t*)buf, (uint8_t*)buf+HEADER_SIZE, (len - HEADER_SIZE) );
 			break;
 		case tSetOuter:
-			//p_outerdata = (OuterData*)(buf + HEADER_SIZE);
+			//p_outerdata = (OuterData*)(buf + HEADER_SIZE);		
+			sendUartCommand((uint8_t*)buf, (uint8_t*)buf+HEADER_SIZE, (len - HEADER_SIZE) );
 			//SetFreqOuter(p_outerdata->freqOuter,p_outerdata->Nperiod,p_outerdata->lenPSP);
 			//setPSP(&p_outerdata->pspMas[0]);
 //			p_addrADCsmpl->type = tADCsmplOuter;
@@ -64,7 +64,8 @@ uint32_t udp_cb_func (int32_t socket, const  NET_ADDR *addr, const uint8_t *buf,
 void fillQueue(){
 	uint8_t *mas;
 	int32_t startval = fifoqspi.getCurrentSize();
-	for(int i = startval; i < fifoqspi.getBufNumber(); i++){
+	volatile int i;
+	for(i = startval; i < fifoqspi.getBufNumber(); i++){
 		mas = netUDP_GetBuffer(BUF_SIZE);	
 		if(mas){
 			fifoqspi.putBuf((uint32_t)mas);
@@ -110,6 +111,7 @@ void udp_Task(void *argument) {
 		p_buf->type=tADCsmpl;
 		p_buf->counter=cnt_adc;
 		cnt_adc++;	
+		//SCB_InvalidateDCache_by_Addr((uint32_t*)addr_send,1452);
 		nstat = netUDP_Send (udp_sock, &addr_pc, (uint8_t*)addr_send, BUF_SIZE);
 		if(nstat != netOK){
 			ff++;

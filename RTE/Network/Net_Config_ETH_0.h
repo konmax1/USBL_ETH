@@ -21,7 +21,7 @@
 //   <i>Value FF-FF-FF-FF-FF-FF is not allowed,
 //   <i>LSB of first byte must be 0 (an ethernet Multicast bit).
 //   <i>Default: "1E-30-6C-A2-45-5E"
-#define ETH0_MAC_ADDR           "1E-30-6C-A2-78-12"
+#define ETH0_MAC_ADDR           "1E-30-6C-A2-15-5E"
 
 //   <e>IPv4
 //   <i>Enable IPv4 Protocol for Network Interface
@@ -92,7 +92,7 @@
 //       <i>will send a Gratuitous ARP notification at startup,
 //       <i>or when the device IP address has changed.
 //       <i>Default: Disabled
-#define ETH0_ARP_NOTIFY         0
+#define ETH0_ARP_NOTIFY         1
 //     </h>
 
 //     <e>IGMP Group Management
@@ -138,7 +138,7 @@
 
 //   <e>IPv6
 //   <i>Enable IPv6 Protocol for Network Interface
-#define ETH0_IP6_ENABLE         0
+#define ETH0_IP6_ENABLE         1
 
 //     <s.40>IPv6 Address
 //     <i>Static IPv6 Address in text representation

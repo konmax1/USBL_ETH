@@ -47,20 +47,21 @@
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
+void NMI_Handler(void);
 void HardFault_Handler(void);
+void MemManage_Handler(void);
+void BusFault_Handler(void);
+void UsageFault_Handler(void);
+void DebugMon_Handler(void);
 void DMA1_Stream0_IRQHandler(void);
 void DMA1_Stream1_IRQHandler(void);
 void DMA1_Stream2_IRQHandler(void);
 void DMA1_Stream3_IRQHandler(void);
-void DMA1_Stream4_IRQHandler(void);
-void TIM1_BRK_IRQHandler(void);
-void TIM1_UP_IRQHandler(void);
-void TIM1_TRG_COM_IRQHandler(void);
-void TIM1_CC_IRQHandler(void);
 void SPI1_IRQHandler(void);
+void TIM8_UP_TIM13_IRQHandler(void);
 void UART4_IRQHandler(void);
-void TIM7_IRQHandler(void);
-void MDMA_IRQHandler(void);
+void ETH_IRQHandler(void);
+void ETH_WKUP_IRQHandler(void);
 
 #ifdef __cplusplus
 }

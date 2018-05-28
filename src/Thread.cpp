@@ -19,26 +19,12 @@ void qspi_Task(void *argument) ;
 MultiFifo fifoqspi(BUF_SIZE,5, "QueueQSPI");
 MultiFifo fifoeth(BUF_SIZE,5, "QueueEth");
 
-//void HAL_QSPI_TxCpltCallback(QSPI_HandleTypeDef *hqspi){
-
-//}
-
-//void HAL_QSPI_RxCpltCallback(QSPI_HandleTypeDef *hqspi){	
-//	fifoeth.putBuf(MDMA_Channel0->CDAR - 1452);	
-//	osSemaphoreRelease(qspiSem_id);
-//			
-//}
-
-//void HAL_QSPI_ErrorCallback(QSPI_HandleTypeDef *hqspi){
-//	osSemaphoreRelease(qspiSem_id);
-
-//}
 
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi){
 }
 
 void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi){
-	fifoeth.putBuf(DMA1_Stream2->M0AR - 12);	
+	fifoeth.putBuf(DMA1_Stream2->M0AR);	
 	osSemaphoreRelease(qspiSem_id);
 }
 
@@ -87,8 +73,9 @@ void qspi_Task (void *argument) {
 		osSemaphoreAcquire(qspiSem_id,osWaitForever);
 		addr_rec = fifoqspi.getBuf();
 		if(addr_rec){
+			//SCB_InvalidateDCache_by_Addr((uint32_t*)addr_rec,PacketSizeBytes);
 			//HAL_QSPI_Receive_DMA(&hqspi,((uint8_t*)addr_rec) + 12);
-			HAL_SPI_Receive_DMA(&hspi1,((uint8_t*)addr_rec) + 12,1440/4);
+			HAL_SPI_Receive_DMA(&hspi1,(uint8_t*)addr_rec,PacketSizeShort);
 		}
   }
 }

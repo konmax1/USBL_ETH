@@ -138,7 +138,7 @@
 
 //   <e>IPv6
 //   <i>Enable IPv6 Protocol for Network Interface
-#define ETH0_IP6_ENABLE         1
+#define ETH0_IP6_ENABLE         0
 
 //     <s.40>IPv6 Address
 //     <i>Static IPv6 Address in text representation

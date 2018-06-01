@@ -5,7 +5,7 @@
 #include "stm32h7xx.h"                  // Device header
 #include "main.h"
 #include "Multififo.h"
-
+#include "pwmouter.h"
 
 
 #define HEADER_SIZE (12)

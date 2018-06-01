@@ -13,17 +13,19 @@ uint32_t udp_cb_func (int32_t socket, const  NET_ADDR *addr, const uint8_t *buf,
 	
 	const netHeader *p = (const netHeader*) buf;
 	uint32_t freq = 0;
-	OuterData *p_outerdata;
+	OuterData *outdata;
 	volatile float freqP = 2 * HAL_RCC_GetPCLK1Freq();
 	switch(p->type){
 		case tInitConn:
 			addr_pc = *addr;
 			break;
 		case tStartADC:
+			SET_BIT(GPIOB->ODR,GPIO_PIN_14);
 			cnt_adc = 0;
 			sendUartCommand((uint8_t*)buf, (uint8_t*)buf+HEADER_SIZE, (len - HEADER_SIZE) );
 			break;
 		case tStopADC:
+			CLEAR_BIT(GPIOB->ODR,GPIO_PIN_14);
 			sendUartCommand((uint8_t*)buf, (uint8_t*)buf+HEADER_SIZE, (len - HEADER_SIZE) );
 			break;
 		case tSetFreqADC:
@@ -39,8 +41,12 @@ uint32_t udp_cb_func (int32_t socket, const  NET_ADDR *addr, const uint8_t *buf,
 			sendUartCommand((uint8_t*)buf, (uint8_t*)buf+HEADER_SIZE, (len - HEADER_SIZE) );
 			break;
 		case tSetOuter:
-			//p_outerdata = (OuterData*)(buf + HEADER_SIZE);		
-			sendUartCommand((uint8_t*)buf, (uint8_t*)buf+HEADER_SIZE, (len - HEADER_SIZE) );
+			outdata = (OuterData*)(buf + HEADER_SIZE);			
+			SetFreqOuter(outdata->freqOuter,outdata->Nperiod,outdata->lenPSP);
+			setPSP(&outdata->pspMas[0]);
+			preStartOuter();
+			needOuterSignal = 1;
+			sendUartCommand((uint8_t*)buf, (uint8_t*)buf+HEADER_SIZE, 0 );
 			//SetFreqOuter(p_outerdata->freqOuter,p_outerdata->Nperiod,p_outerdata->lenPSP);
 			//setPSP(&p_outerdata->pspMas[0]);
 //			p_addrADCsmpl->type = tADCsmplOuter;
@@ -108,11 +114,11 @@ void udp_Task(void *argument) {
 	while(1){
 		addr_send = fifoeth.getBuf();
 		p_buf = (netBuf*)addr_send;
-		p_buf->type=tADCsmpl;
-		p_buf->counter=cnt_adc;
-		cnt_adc++;	
+		//p_buf->type=tADCsmpl;
+		//p_buf->counter=p_buf->counter;
+		//cnt_adc++;	
 		//SCB_InvalidateDCache_by_Addr((uint32_t*)addr_send,1452);
-		nstat = netUDP_Send (udp_sock, &addr_pc, (uint8_t*)addr_send, BUF_SIZE);
+		nstat = netUDP_Send (udp_sock, &addr_pc, (uint8_t*)&p_buf->type, BUF_SIZE);
 		if(nstat != netOK){
 			ff++;
 		}

@@ -51,8 +51,14 @@
 
 #define User_Btn_Pin GPIO_PIN_13
 #define User_Btn_GPIO_Port GPIOC
+#define Invensense_IRQ_Pin GPIO_PIN_2
+#define Invensense_IRQ_GPIO_Port GPIOF
 #define LD3_RED_Pin GPIO_PIN_14
 #define LD3_RED_GPIO_Port GPIOB
+#define V_invensense_Pin GPIO_PIN_0
+#define V_invensense_GPIO_Port GPIOD
+#define LD2_Blue_Pin GPIO_PIN_7
+#define LD2_Blue_GPIO_Port GPIOB
 
 /* ########################## Assert Selection ############################## */
 /**

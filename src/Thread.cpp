@@ -19,6 +19,7 @@ void qspi_Task(void *argument) ;
 MultiFifo fifoqspi(BUF_SIZE,5, "QueueQSPI");
 MultiFifo fifoeth(BUF_SIZE,5, "QueueEth");
 
+uint32_t dataMPL[128*1024/4] __attribute__((section(".ARM.__at_0x08020000")));
 
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi){
 }
@@ -83,12 +84,17 @@ void qspi_Task (void *argument) {
 extern "C" void Thread (void *argument) {		
 	osThreadAttr_t worker_attr;
 	memset(&worker_attr, 0, sizeof(worker_attr));
-  worker_attr.stack_size = 2000; 
+    worker_attr.stack_size = 2000;     
 	fifoqspi.init(0);
 	fifoeth.init(0);
 	uartTx_id = osSemaphoreNew(1,1,NULL);
-	
-	tid_udp_Task = osThreadNew (udp_Task, NULL, &worker_attr);	
+    
+    worker_attr.priority = osPriorityNormal;
+	tid_udp_Task = osThreadNew (udp_Task, NULL, &worker_attr);
+    
+    worker_attr.priority = osPriorityBelowNormal;
+	tid_InvensenseTask = osThreadNew (InvensenseTask, NULL, &worker_attr);	
+    
 	worker_attr.priority = osPriorityHigh;
 	tid_qspi_Task = osThreadNew (qspi_Task, NULL, &worker_attr);	
   while (1) {

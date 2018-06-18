@@ -63,12 +63,16 @@ void TIM1_BRK_IRQHandler(void);
 void TIM1_UP_IRQHandler(void);
 void TIM1_TRG_COM_IRQHandler(void);
 void TIM1_CC_IRQHandler(void);
+void I2C1_EV_IRQHandler(void);
+void I2C1_ER_IRQHandler(void);
 void I2C2_EV_IRQHandler(void);
 void I2C2_ER_IRQHandler(void);
 void SPI1_IRQHandler(void);
 void TIM8_UP_TIM13_IRQHandler(void);
 void DMA1_Stream7_IRQHandler(void);
 void UART4_IRQHandler(void);
+void DMA2_Stream0_IRQHandler(void);
+void DMA2_Stream1_IRQHandler(void);
 void ETH_IRQHandler(void);
 void ETH_WKUP_IRQHandler(void);
 

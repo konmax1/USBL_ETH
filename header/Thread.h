@@ -29,14 +29,18 @@ enum typeCMD : uint16_t{
 	tInitConn			=	0x0001,
 	tStartADC			=	0x0002,
 	tStopADC 			=	0x0003,
-	tSetFreqADC		= 0x0004,
+	tSetFreqADC	    	=   0x0004,
 	tADCsmpl 			=	0x0005,	
 	tSetOuter			=	0x0006,
-	tADCsmplOuter	=	0x0007,
+	tADCsmplOuter   	=	0x0007,
 	tLogADC				=	0x0010,
 	tLinADC				=	0x0011,
 	tOffADC				=	0x0012,
-	tErr					=	0x00FF,
+    tStartQuat          =   0x0020,
+    tStopQuat           =   0x0021,
+    tQuatsmpl           =   0x0022,
+    tQuatSave           =   0x0023,
+	tErr				=	0x00FF,
 	tUnknown			=	0xFFFF,
 };
 
@@ -66,6 +70,14 @@ struct netBuf{
 	int16_t mas[SMPL_CNT][8];
 };
 
+struct netQuaternion{
+    netHeader header;
+    float w;
+    float x;
+    float y;
+    float z;
+};
+
 void sendUartCommand(uint8_t* header, uint8_t* data,uint32_t len);
 
 extern osThreadId_t tid_Thread;                                      // thread id
@@ -77,5 +89,48 @@ extern MultiFifo fifoqspi;
 extern MultiFifo fifoeth;
 
 extern SPI_HandleTypeDef hspi1;
+
+void InvensenseTask (void *argument);                                 // thread function
+extern osThreadId_t tid_InvensenseTask;                                      // thread id
+extern int32_t udp_sock; 
+
+
+
+extern uint32_t dataMPL[128*1024/4];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

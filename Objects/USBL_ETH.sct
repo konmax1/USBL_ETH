@@ -19,5 +19,8 @@ LR_IROM1 0x08000000 0x00200000  {    ; load region size_region
    *Net_CM3_L.lib (+RO)
     Net_Config.o (+RO)
   }
+  RW_IRAM1 0x20000000 0x00020000  {
+    UDP_Socket.o (+RO)
+  }
 }
 

@@ -130,16 +130,17 @@ void fillQueue(){
 }
 
 void udp_Task(void *argument) {	
-	netInitialize ();
-	osStatus_t stat;
+    
 	volatile netStatus nstat;
+	nstat = netInitialize ();
+	osStatus_t stat;
 	netBuf* p_buf;
 	uint32_t addr_send;	
 	uint8_t *mas;
-		
 	udp_sock = netUDP_GetSocket (udp_cb_func);
-  if (udp_sock > 0)
-    netUDP_Open (udp_sock, 8000);
+    if (udp_sock > 0){
+        netUDP_Open (udp_sock, 8000);
+    }
 //	tcp_sock = netTCP_GetSocket (tcp_cb_server);
 //  if (tcp_sock > 0) {
 //    netTCP_Listen (tcp_sock, 9000);
@@ -159,8 +160,13 @@ void udp_Task(void *argument) {
 		//SCB_InvalidateDCache_by_Addr((uint32_t*)addr_send,1452);
 		nstat = netUDP_Send (udp_sock, &addr_pc, (uint8_t*)&p_buf->type, BUF_SIZE);
 		if(nstat != netOK){
+            
+            if(nstat == netError){
+                HAL_NVIC_SystemReset();
+            }
 			ff++;
 		}
 		fillQueue();		
 	}
 }
+

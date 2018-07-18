@@ -12,6 +12,7 @@ uint16_t outBPSK[Npoint * NsinMax * NpspMax] __attribute__((section(".ARM.__at_0
 
 void setPSP(uint8_t *mas){
 	uint16_t* p = &outBPSK[0];
+    //SCB_InvalidateDCache_by_Addr((uint32_t*)&outBPSK[0], 65536);
 	arm_copy_q7( (q7_t*)&mas[0], (q7_t*)pspmas, lenPSP);
 	
 	for(volatile int i=0 ; i < lenPSP;i++){
@@ -20,8 +21,12 @@ void setPSP(uint8_t *mas){
 	//arm_copy_q15()
 	for(volatile int i=0 ; i < lenPSP;i++){
 		arm_copy_q15( (q15_t*)&sinx[pspmas[i]], (q15_t*)p,  /*2 * */N_sinG );
+        //__DMB();
 		p += N_sinG;
-	}
+	}    
+    SCB_CleanDCache_by_Addr((uint32_t*)&outBPSK[0], 65536);
+    //SCB_InvalidateDCache_by_Addr((uint32_t*)&outBPSK[0], 65536);
+    //__DMB();
 	
 }
 
@@ -84,8 +89,9 @@ int32_t preStartOuter(){
 	//HAL_TIM_PWM_Start_DMA(&htim1,TIM_CHANNEL_3,(uint32_t*)&outBPSK[0],N_sinG * lenPSP);
 		return 0;
 }
-
-__inline__ void StopOuter(){
+volatile uint32_t t1,t2;
+__inline__ void StopOuter(){    
+    t2 = DWT->CYCCNT;
 	TIM1->CCER &=  (~TIM_CCER_CC3NE) & (~TIM_CCER_CC3E);
 	TIM1->DIER &= ~(TIM_DMA_CC3 | TIM_DIER_CC3IE);
 	TIM1->BDTR &= ~(TIM_BDTR_MOE);
@@ -116,6 +122,7 @@ extern "C" void EXTI0_IRQHandler(void)
 		needOuterSignal = 0;	
 		__HAL_TIM_MOE_ENABLE(&htim1);
 		SET_BIT(GPIOB->ODR,GPIO_PIN_7);
+        t1 = DWT->CYCCNT;
 		__HAL_TIM_ENABLE(&htim1); 
 		//StartOuter();
 	}

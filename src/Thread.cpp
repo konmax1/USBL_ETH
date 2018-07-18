@@ -76,6 +76,7 @@ void qspi_Task (void *argument) {
 		if(addr_rec){
 			//SCB_InvalidateDCache_by_Addr((uint32_t*)addr_rec,PacketSizeBytes);
 			//HAL_QSPI_Receive_DMA(&hqspi,((uint8_t*)addr_rec) + 12);
+            SCB_CleanDCache_by_Addr((uint32_t*)addr_rec,PacketSizeShort);
 			HAL_SPI_Receive_DMA(&hspi1,(uint8_t*)addr_rec,PacketSizeShort);
 		}
   }

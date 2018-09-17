@@ -130,9 +130,9 @@ static inline void run_self_test(void)
     int result;
     long gyro[3], accel[3];
     result = mpu_run_6500_self_test(gyro, accel, 0); 
-    sprintf(ch,chAngle,(result & 0x2)>>1,(result & 0x1)>>0,(result & 0x4)>>2);
-    LCD_SendCommand(LCD_ADDR, 0b10000000);
-    LCD_SendString(LCD_ADDR, ch);
+    //sprintf(ch,chAngle,(result & 0x2)>>1,(result & 0x1)>>0,(result & 0x4)>>2);
+    //LCD_SendCommand(LCD_ADDR, 0b10000000);
+    //LCD_SendString(LCD_ADDR, ch);
     if (result == 0x7) {
 	MPL_LOGI("Passed!\n");
         MPL_LOGI("accel: %7.4f %7.4f %7.4f\n",
@@ -206,12 +206,12 @@ static inline void run_self_test(void)
 void InvensenseTask (void *argument) {	
     CLEAR_BIT(GPIOD->ODR,GPIO_PIN_0);
     inv_error_t statInv;
+    __HAL_RCC_BKPRAM_CLK_ENABLE();
+    HAL_PWR_EnableBkUpAccess();
     osDelay(50);
     SET_BIT(GPIOD->ODR,GPIO_PIN_0);
     osDelay(50);
-    initLCD();
-    __HAL_RCC_BKPRAM_CLK_ENABLE();
-    HAL_PWR_EnableBkUpAccess();
+    //initLCD();
     inv_error_t result;
     unsigned char accel_fsr,  new_temp = 0;
     unsigned short gyro_rate, gyro_fsr;
@@ -221,12 +221,12 @@ void InvensenseTask (void *argument) {
     unsigned short compass_fsr;
     result = mpu_init(&int_param);
     if (result) {
-        MPL_LOGE("Could not initialize gyro.\n");
+        printf("Could not initialize gyro.\n");
     }
     printf("sensor init\n");
-    result = inv_init_mpl();
+     result = inv_init_mpl();
     if (result) {
-        MPL_LOGE("Could not initialize MPL.\n");
+        printf("Could not initialize MPL.\n");
     }
     printf("MPL init\n");
     statInv = inv_enable_quaternion();
@@ -312,16 +312,17 @@ void InvensenseTask (void *argument) {
     inv_build_temp(temperature, sensor_timestamp);
     run_self_test();
     netQuaternion* quat_buf;
-    char chAngle[60] = "%04.0f|%04.0f|%04.0f";
     int8_t accuracy;
     char ch[60];
     long inv_euler[3];
     float inv_eulerF[3];
     volatile int32_t cntLCD = 0;
     int32_t saveMPL=0;
+    int32_t read_stat;
     while (1) {
         do{
-            if(mpu_read_fifo(gyro_raw, accel_raw, &sensor_timestamp, &sensors, &more)== 0){
+            read_stat = mpu_read_fifo(gyro_raw, accel_raw, &sensor_timestamp, &sensors, &more);
+            if(read_stat == 0){
                 inv_build_gyro(gyro_raw, sensor_timestamp);
                 accel_long[0] = (long)accel_raw[0];
                 accel_long[1] = (long)accel_raw[1];
@@ -337,15 +338,16 @@ void InvensenseTask (void *argument) {
                 inv_get_quaternion_float(&quatF[0]);
                 if(enSendQuat == 1){                    
                     quat_buf = (netQuaternion*)netUDP_GetBuffer (16+HEADER_SIZE);
-                    quat_buf->w = quatF[0];
+                    quat_buf->header.type = tQuatsmpl;
+                    quat_buf->header.counter = cntQuat++;
+                    memcpy(&quat_buf->w,&quatF[0],16);
+                    /*quat_buf->w = quatF[0];
                     quat_buf->x = quatF[1];
                     quat_buf->y = quatF[2];
-                    quat_buf->z = quatF[3];
-                    quat_buf->header.type = tQuatsmpl;
-                    quat_buf->header.counter = cntQuat;
+                    quat_buf->z = quatF[3];*/
                     netUDP_Send (udp_sock, &addr_pc , (uint8_t*)quat_buf, 16+HEADER_SIZE);
                 }
-                cntLCD++;
+                /*cntLCD++;
                 if(cntLCD >10){
                     inv_get_sensor_type_euler(&inv_euler[0], &accuracy,(inv_time_t*)&timestamp);
                     inv_eulerF[0] = inv_euler[0] / 65536.;
@@ -355,7 +357,7 @@ void InvensenseTask (void *argument) {
                     sprintf(ch,chAngle,inv_eulerF[0],inv_eulerF[1],inv_eulerF[2]);
                     LCD_SendCommand(LCD_ADDR, 0b11000000);
                     LCD_SendString(LCD_ADDR, ch);
-                }
+                }*/
             }
         }while(more);
         osDelay(10);

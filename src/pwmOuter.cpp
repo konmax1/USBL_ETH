@@ -12,21 +12,16 @@ uint16_t outBPSK[Npoint * NsinMax * NpspMax] __attribute__((section(".ARM.__at_0
 
 void setPSP(uint8_t *mas){
 	uint16_t* p = &outBPSK[0];
-    //SCB_InvalidateDCache_by_Addr((uint32_t*)&outBPSK[0], 65536);
 	arm_copy_q7( (q7_t*)&mas[0], (q7_t*)pspmas, lenPSP);
 	
 	for(volatile int i=0 ; i < lenPSP;i++){
 		pspmas[i] = pspmas[i]  * Npoint2;
 	}
-	//arm_copy_q15()
 	for(volatile int i=0 ; i < lenPSP;i++){
 		arm_copy_q15( (q15_t*)&sinx[pspmas[i]], (q15_t*)p,  /*2 * */N_sinG );
-        //__DMB();
 		p += N_sinG;
 	}    
-    SCB_CleanDCache_by_Addr((uint32_t*)&outBPSK[0], 65536);
-    //SCB_InvalidateDCache_by_Addr((uint32_t*)&outBPSK[0], 65536);
-    //__DMB();
+    //SCB_CleanDCache_by_Addr((uint32_t*)&outBPSK[0], 65536);
 	
 }
 

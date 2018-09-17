@@ -5,3 +5,4 @@
 *._ia
 *.crf
 *.a
+src/retarget_io.c

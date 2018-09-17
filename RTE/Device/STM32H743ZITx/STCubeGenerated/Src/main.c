@@ -95,11 +95,11 @@ DMA_HandleTypeDef hdma_uart4_rx;
 DMA_HandleTypeDef hdma_uart4_tx;
 
 /* USER CODE BEGIN PV */
-#if defined ( __ARMCC_VERSION)  /* MDK ARM Compiler */
-ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT] 		__attribute__((section(".ARM.__at_0x30040000"))); /* Ethernet Rx DMA Descriptors */
-ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT] 		__attribute__((section(".ARM.__at_0x30040060"))); /* Ethernet Tx DMA Descriptors */
-uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_MAX_PACKET_SIZE] __attribute__((section(".ARM.__at_0x30040200"))) ; /* Ethernet Receive Buffer */
-#endif
+//#if defined ( __ARMCC_VERSION)  /* MDK ARM Compiler */
+//ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT] 		__attribute__((section(".ARM.__at_0x30040000"))); /* Ethernet Rx DMA Descriptors */
+//ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT] 		__attribute__((section(".ARM.__at_0x30040060"))); /* Ethernet Tx DMA Descriptors */
+//uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_MAX_PACKET_SIZE] __attribute__((section(".ARM.__at_0x30040200"))) ; /* Ethernet Receive Buffer */
+//#endif
 
 /* Private variables ---------------------------------------------------------*/
 extern osThreadId_t tid_Thread;                                      // thread id
@@ -157,7 +157,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+    SCB_DisableDCache();
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -268,12 +268,12 @@ void SystemClock_Config(void)
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC|RCC_PERIPHCLK_UART4
                               |RCC_PERIPHCLK_SPI1|RCC_PERIPHCLK_I2C2
                               |RCC_PERIPHCLK_I2C1;
-  PeriphClkInitStruct.PLL2.PLL2M = 1;
-  PeriphClkInitStruct.PLL2.PLL2N = 45;
-  PeriphClkInitStruct.PLL2.PLL2P = 1;
+  PeriphClkInitStruct.PLL2.PLL2M = 2;
+  PeriphClkInitStruct.PLL2.PLL2N = 190;
+  PeriphClkInitStruct.PLL2.PLL2P = 2;
   PeriphClkInitStruct.PLL2.PLL2Q = 2;
   PeriphClkInitStruct.PLL2.PLL2R = 2;
-  PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_3;
+  PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_2;
   PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOWIDE;
   PeriphClkInitStruct.PLL2.PLL2FRACN = 0;
   PeriphClkInitStruct.Spi123ClockSelection = RCC_SPI123CLKSOURCE_PLL2;
@@ -486,7 +486,7 @@ static void MX_SPI1_Init(void)
   hspi1.Init.RxCRCInitializationPattern = SPI_CRC_INITIALIZATION_ALL_ZERO_PATTERN;
   hspi1.Init.MasterSSIdleness = SPI_MASTER_SS_IDLENESS_00CYCLE;
   hspi1.Init.MasterInterDataIdleness = SPI_MASTER_INTERDATA_IDLENESS_00CYCLE;
-  hspi1.Init.MasterReceiverAutoSusp = SPI_MASTER_INTERDATA_IDLENESS_00CYCLE;
+  hspi1.Init.MasterReceiverAutoSusp = SPI_MASTER_RX_AUTOSUSP_DISABLE;
   hspi1.Init.MasterKeepIOState = SPI_MASTER_KEEP_IO_STATE_DISABLE;
   hspi1.Init.IOSwap = SPI_IO_SWAP_DISABLE;
   if (HAL_SPI_Init(&hspi1) != HAL_OK)
@@ -741,22 +741,6 @@ void MPU_Config(void)
   MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
 
   HAL_MPU_ConfigRegion(&MPU_InitStruct);
-  
-      /**Initializes and configures the Region and the memory to be protected 
-    */
-//  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
-//  MPU_InitStruct.Number = MPU_REGION_NUMBER2;
-//  MPU_InitStruct.BaseAddress = 0x24040000;
-//  MPU_InitStruct.Size = MPU_REGION_SIZE_128KB;
-//  MPU_InitStruct.SubRegionDisable = 0x0;
-//  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-//  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-//  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
-//  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
-//  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-//  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
-
-//  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
   /* Enables the MPU */
   HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);

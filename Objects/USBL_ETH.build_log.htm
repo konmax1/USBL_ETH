@@ -3,65 +3,51 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: µVision V5.25.2.0
+IDE-Version: µVision V5.26.2.0
 Copyright (C) 2018 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: no no, no, LIC=MGXAR-KAP7L-78RFD-8FIUW-WHZEF-VU8IE
+License Information: no no, no, LIC=X1ERA-1RNLC-150TV-PFEUK-KJDCK-S16BG
  
 Tool Versions:
-Toolchain:       MDK-ARM Professional  Version: 5.25.2.0
-Toolchain Path:  C:\Keil_v5\ARM\ARMCLANG\Bin
-C Compiler:      ArmClang.exe V6.9
-Assembler:       Armasm.exe V6.9
-Linker/Locator:  ArmLink.exe V6.9
-Library Manager: ArmAr.exe V6.9
-Hex Converter:   FromElf.exe V6.9
-CPU DLL:         SARMCM3.DLL V5.25.2.0
-Dialog DLL:      DCM.DLL V1.17.1.0
-Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.1.0
-Dialog DLL:      TCM.DLL V1.35.1.0
+Toolchain:       MDK-ARM Professional  Version: 5.26.2.0
+Toolchain Path:  C:\Keil\Keil_v5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.10.1
+Assembler:       Armasm.exe V6.10.1
+Linker/Locator:  ArmLink.exe V6.10.1
+Library Manager: ArmAr.exe V6.10.1
+Hex Converter:   FromElf.exe V6.10.1
+CPU DLL:         SARMCM3.DLL V5.26.2.0
+Dialog DLL:      DCM.DLL V1.17.2.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.5.0
+Dialog DLL:      TCM.DLL V1.36.1.0
  
 <h2>Project:</h2>
-E:\SVN\Project\USBL_ETH\USBL_ETH.uvprojx
-Project File Date:  07/12/2018
+\\vmware-host\Shared Folders\E\SVN\Project\USBL_ETH\USBL_ETH.uvprojx
+Project File Date:  09/17/2018
 
 <h2>Output:</h2>
-*** Using Compiler 'V6.9', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
-*** Warning: Using Microlib and C++ file(s) might cause the linker to fail !
+*** Using Compiler 'V6.10.1', folder: 'C:\Keil\Keil_v5\ARM\ARMCLANG\Bin'
+*** Warning: You are compiling one or more files of source type C++ and have selected 'use MicroLIB'. MicroLIB does not support C++!
   
 Build target 'Target 1'
-src/UDP_Socket.cpp(1): warning: In file included from...
-./header\thread.h(3): warning: In file included from...
-C:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/2.1.0/Drivers/STM32H7xx_HAL_Driver/Inc\stm32h7xx_hal.h(48): warning: In file included from...
-./RTE/Device/STM32H743ZITx/STCubeGenerated/Inc\stm32h7xx_hal_conf.h(234): warning: In file included from...
-C:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/2.1.0/Drivers/STM32H7xx_HAL_Driver/Inc\stm32h7xx_hal_eth.h(77): warning: '__packed__' attribute ignored [-Wignored-attributes]
-typedef __packed struct
-        ^
-C:/Keil_v5/ARM/PACK/Keil/STM32H7xx_DFP/2.1.0/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h(149): note: expanded from macro '__packed'
-    #define __packed __attribute__((__packed__))
-                                    ^
-src/UDP_Socket.cpp(1): warning: In file included from...
-./header\thread.h(7): warning: In file included from...
-../MultiFifo\Multififo.h(21): warning: ISO C++11 does not allow conversion from string literal to 'char *' [-Wwritable-strings]
-                MultiFifo(int32_t _bufsize, int32_t _bufnumber,char* _name = "Queue");
-                                                                             ^
-2 warnings generated.
-compiling UDP_Socket.cpp...
+compiling main.c...
 linking...
-Program Size: Code=114808 RO-data=6516 RW-data=401144 ZI-data=36988  
-".\Objects\USBL_ETH.axf" - 0 Error(s), 2 Warning(s).
+.\Objects\USBL_ETH.axf: Warning: L6969W: Changing AT Section .ARM.__at_0x08020000 type from RW to RO in ER_IROM1.
+Program Size: Code=163360 RO-data=140416 RW-data=176320 ZI-data=77400  
+Finished: 0 information, 1 warning and 0 error messages.
+".\Objects\USBL_ETH.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: ARM
-                http://www.keil.com/pack/ARM.CMSIS.5.3.0.pack
-                ARM.CMSIS.5.3.0
+                http://www.keil.com/pack/ARM.CMSIS.5.4.0.pack
+                ARM.CMSIS.5.4.0
                 CMSIS (Cortex Microcontroller Software Interface Standard)
    * Component: Ethernet MAC Version: 2.1.0
    * Component: Ethernet PHY Version: 2.1.0
-   * Component: RTOS2 Version: 2.1.2
-   * Component: CORE Version: 5.1.1
+   * Component: RTOS2 Version: 2.1.3
+   * Component: CORE Version: 5.1.2
    * Component: DSP Version: 1.5.2
-   * Component: Keil RTX5 Variant: Library Version: 5.3.0
+   * Component: Keil RTX5 Variant: Library Version: 5.4.0
 
 Package Vendor: ARM
                 http://www.keil.com/pack/ARM.CMSIS-Driver.2.3.0.pack
@@ -70,10 +56,10 @@ Package Vendor: ARM
    * Component: LAN8742A Version: 1.2.0
 
 Package Vendor: Keil
-                http://www.keil.com/pack/Keil.ARM_Compiler.1.4.0.pack
-                Keil.ARM_Compiler.1.4.0
+                http://www.keil.com/pack/Keil.ARM_Compiler.1.6.0.pack
+                Keil.ARM_Compiler.1.6.0
                 Keil ARM Compiler extensions for ARM Compiler 5 and ARM Compiler 6
-   * Component: STDOUT Variant: ITM Version: 1.4.0
+   * Component: STDOUT Variant: ITM Version: 1.2.0
 
 Package Vendor: Keil
                 project-path/Keil.FrameworkCubeMX.1.0.0.pack
@@ -85,29 +71,29 @@ Package Vendor: Keil
                 http://www.keil.com/pack/Keil.MDK-Middleware.7.7.0.pack
                 Keil.MDK-Middleware.7.7.0
                 Middleware for Keil MDK-Professional and MDK-Plus
-   * Component: CORE Variant: IPv4/IPv6 Release Version: 7.9.0
+   * Component: CORE Variant: IPv4 Release Version: 7.9.0
    * Component: ETH Version: 7.9.0
    * Component: UDP Version: 7.9.0
 
 Package Vendor: Keil
-                http://www.keil.com/pack/Keil.STM32H7xx_DFP.2.1.0.pack
-                Keil.STM32H7xx_DFP.2.1.0
+                http://www.keil.com/pack/Keil.STM32H7xx_DFP.2.2.0.pack
+                Keil.STM32H7xx_DFP.2.2.0
                 STMicroelectronics STM32H7 Series Device Support and Examples
    * Component: STM32Cube Framework Version: 1.1.0
    * Component: Ethernet MAC Version: 1.0.0
-   * Component: Common Version: 1.1.0
-   * Component: Cortex Version: 1.2.0
-   * Component: DMA Version: 1.2.0
-   * Component: ETH Version: 1.2.0
-   * Component: Flash Version: 1.2.0
-   * Component: GPIO Version: 1.2.0
-   * Component: I2C Version: 1.2.0
-   * Component: PWR Version: 1.2.0
-   * Component: RCC Version: 1.2.0
-   * Component: RTC Version: 1.2.0
-   * Component: SPI Version: 1.2.0
-   * Component: TIM Version: 1.2.0
-   * Component: UART Version: 1.2.0
+   * Component: Common Version: 1.3.0
+   * Component: Cortex Version: 1.3.0
+   * Component: DMA Version: 1.3.0
+   * Component: ETH Version: 1.3.0
+   * Component: Flash Version: 1.3.0
+   * Component: GPIO Version: 1.3.0
+   * Component: I2C Version: 1.3.0
+   * Component: PWR Version: 1.3.0
+   * Component: RCC Version: 1.3.0
+   * Component: RTC Version: 1.3.0
+   * Component: SPI Version: 1.3.0
+   * Component: TIM Version: 1.3.0
+   * Component: UART Version: 1.3.0
    * Component: Startup Version: 1.2.0
 
 <h2>Collection of Component include folders:</h2>
@@ -116,13 +102,14 @@ Package Vendor: Keil
   .\RTE\Device\STM32H743ZITx\Drivers\STM32H7xx_HAL_Driver\Inc
   .\RTE\Device\STM32H743ZITx\STCubeGenerated\Inc
   .\RTE\_Target_1
-  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Driver\Include
-  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include
-  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\RTOS2\Include
-  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\RTOS2\RTX\Include
-  C:\Keil_v5\ARM\PACK\Keil\MDK-Middleware\7.7.0\Network\Include
-  C:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include
-  C:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.1.0\Drivers\STM32H7xx_HAL_Driver\Inc
+  C:\Keil\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include
+  C:\Keil\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\DSP\Include
+  C:\Keil\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Driver\Include
+  C:\Keil\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\RTOS2\Include
+  C:\Keil\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\RTOS2\RTX\Include
+  C:\Keil\Keil_v5\ARM\PACK\Keil\MDK-Middleware\7.7.0\Network\Include
+  C:\Keil\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include
+  C:\Keil\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\STM32H7xx_HAL_Driver\Inc
 
 <h2>Collection of Component Files used:</h2>
 
@@ -132,40 +119,40 @@ Package Vendor: Keil
    * Component: ::CMSIS Driver:Ethernet PHY:2.1.0 (API)
       Include file:  CMSIS\Driver\Include\Driver_ETH_PHY.h
 
-   * Component: ::CMSIS:RTOS2:2.1.2 (API)
+   * Component: ::CMSIS:RTOS2:2.1.3 (API)
       Include file:  CMSIS\RTOS2\Include\cmsis_os2.h
 
    * Component: ::Device:STM32Cube Framework:1.1.0 (API)
 
-   * Component: ARM::CMSIS:CORE:5.1.1
+   * Component: ARM::CMSIS:CORE:5.1.2
 
    * Component: ARM::CMSIS:DSP:1.5.2
-      Include file:  CMSIS\Include\arm_math.h
       Library file:  CMSIS\Lib\ARM\arm_cortexM7lfdp_math.lib
+      Include file:  CMSIS\DSP\Include\arm_math.h
 
-   * Component: ARM::CMSIS:RTOS2:Keil RTX5:Library:5.3.0
-      Include file:  CMSIS\RTOS2\RTX\Include\rtx_os.h
-      Include file:  CMSIS\RTOS2\RTX\Config\RTX_Config.h
+   * Component: ARM::CMSIS:RTOS2:Keil RTX5:Library:5.4.0
       Source file:   CMSIS\RTOS2\RTX\Config\RTX_Config.c
-      Source file:   CMSIS\RTOS2\RTX\Template\main.c
+      Include file:  CMSIS\RTOS2\RTX\Config\RTX_Config.h
+      Include file:  CMSIS\RTOS2\RTX\Include\rtx_os.h
       Source file:   CMSIS\RTOS2\RTX\Template\Events.c
       Source file:   CMSIS\RTOS2\RTX\Template\MemPool.c
-      Source file:   CMSIS\RTOS2\RTX\Template\MsgQueue.c
       Source file:   CMSIS\RTOS2\RTX\Template\Mutex.c
+      Source file:   CMSIS\RTOS2\RTX\Template\main.c
       Source file:   CMSIS\RTOS2\RTX\Template\Semaphore.c
-      Source file:   CMSIS\RTOS2\RTX\Template\Thread.c
+      Source file:   CMSIS\RTOS2\RTX\Template\MsgQueue.c
+      Library file:  CMSIS\RTOS2\RTX\Library\ARM\RTX_CM4F.lib
       Source file:   CMSIS\RTOS2\RTX\Template\Timer.c
+      Source file:   CMSIS\RTOS2\RTX\Template\Thread.c
       Source file:   CMSIS\RTOS2\RTX\Template\svc_user.c
       Source file:   CMSIS\RTOS2\RTX\Source\rtx_lib.c
-      Library file:  CMSIS\RTOS2\RTX\Library\ARM\RTX_CM4F.lib
 
-   * Component: Keil.ARM Compiler::Compiler:I/O:STDOUT:ITM:1.4.0
+   * Component: Keil.ARM Compiler::Compiler:I/O:STDOUT:ITM:1.2.0
       Source file:   Source\retarget_io.c
 
-   * Component: Keil.MDK-Pro::Network:CORE:IPv4/IPv6 Release:7.9.0
-      Include file:  Network\Include\rl_net.h
+   * Component: Keil.MDK-Pro::Network:CORE:IPv4 Release:7.9.0
       Source file:   Network\Config\Net_Config.c
-      Library file:  Network\Lib\ARM\Net_CM3_L.lib
+      Include file:  Network\Include\rl_net.h
+      Library file:  Network\Lib\ARM\Net4_CM3_L.lib
 
    * Component: Keil.MDK-Pro::Network:Interface:ETH:7.9.0
       Source file:   Network\Config\Net_Config_ETH.h
@@ -181,65 +168,65 @@ Package Vendor: Keil
       Source file:   ETH\PHY_LAN8742A.c
 
    * Component: Keil::Device:STM32Cube Framework:STM32CubeMX:1.0.0
-      Include file:  MX_Device.h
       Include file:  STCubeGenerated\Inc\stm32h7xx_hal_conf.h
       Source file:   STCubeGenerated\Src\stm32h7xx_hal_msp.c
+      Include file:  MX_Device.h
 
-   * Component: Keil::Device:STM32Cube HAL:Common:1.1.0
+   * Component: Keil::Device:STM32Cube HAL:Common:1.3.0
       Include file:  Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal.c
 
-   * Component: Keil::Device:STM32Cube HAL:Cortex:1.2.0
+   * Component: Keil::Device:STM32Cube HAL:Cortex:1.3.0
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_cortex.c
 
-   * Component: Keil::Device:STM32Cube HAL:DMA:1.2.0
+   * Component: Keil::Device:STM32Cube HAL:DMA:1.3.0
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_dma.c
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_dma_ex.c
 
-   * Component: Keil::Device:STM32Cube HAL:ETH:1.2.0
+   * Component: Keil::Device:STM32Cube HAL:ETH:1.3.0
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_eth.c
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_eth_ex.c
 
-   * Component: Keil::Device:STM32Cube HAL:Flash:1.2.0
-      Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_flash.c
+   * Component: Keil::Device:STM32Cube HAL:Flash:1.3.0
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_flash_ex.c
+      Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_flash.c
 
-   * Component: Keil::Device:STM32Cube HAL:GPIO:1.2.0
+   * Component: Keil::Device:STM32Cube HAL:GPIO:1.3.0
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_gpio.c
 
-   * Component: Keil::Device:STM32Cube HAL:I2C:1.2.0
+   * Component: Keil::Device:STM32Cube HAL:I2C:1.3.0
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_i2c.c
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_i2c_ex.c
 
-   * Component: Keil::Device:STM32Cube HAL:PWR:1.2.0
+   * Component: Keil::Device:STM32Cube HAL:PWR:1.3.0
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_pwr.c
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_pwr_ex.c
 
-   * Component: Keil::Device:STM32Cube HAL:RCC:1.2.0
+   * Component: Keil::Device:STM32Cube HAL:RCC:1.3.0
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_rcc.c
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_rcc_ex.c
 
-   * Component: Keil::Device:STM32Cube HAL:RTC:1.2.0
+   * Component: Keil::Device:STM32Cube HAL:RTC:1.3.0
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_rtc.c
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_rtc_ex.c
 
-   * Component: Keil::Device:STM32Cube HAL:SPI:1.2.0
-      Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_spi.c
+   * Component: Keil::Device:STM32Cube HAL:SPI:1.3.0
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_spi_ex.c
+      Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_spi.c
 
-   * Component: Keil::Device:STM32Cube HAL:TIM:1.2.0
+   * Component: Keil::Device:STM32Cube HAL:TIM:1.3.0
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_tim.c
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_tim_ex.c
 
-   * Component: Keil::Device:STM32Cube HAL:UART:1.2.0
+   * Component: Keil::Device:STM32Cube HAL:UART:1.3.0
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_uart.c
       Source file:   Drivers\STM32H7xx_HAL_Driver\Src\stm32h7xx_hal_uart_ex.c
 
    * Component: Keil::Device:Startup:1.2.0
+      Source file:   Drivers\CMSIS\Device\ST\STM32H7xx\Source\Templates\system_stm32h7xx.c
       Include file:  Drivers\CMSIS\Device\ST\STM32H7xx\Include\stm32h7xx.h
       Source file:   Drivers\CMSIS\Device\ST\STM32H7xx\Source\Templates\arm\startup_stm32h743xx.s
-      Source file:   Drivers\CMSIS\Device\ST\STM32H7xx\Source\Templates\system_stm32h7xx.c
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

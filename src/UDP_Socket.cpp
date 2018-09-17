@@ -111,10 +111,14 @@ void fillQueue(){
 	int32_t startval = fifoqspi.getCurrentSize();
 	volatile int i;
 	for(i = startval; i < fifoqspi.getBufNumber(); i++){
-		mas = netUDP_GetBuffer(BUF_SIZE);	
+		mas = netUDP_GetBuffer(PacketSizeBytes);	
 		if(mas){
+            //SCB_CleanInvalidateDCache_by_Addr((uint32_t*)(uint32_t)mas,PacketSizeBytes+32);
+            //SCB_CleanInvalidateDCache_by_Addr((uint32_t*)((uint32_t)mas & 0xFFFFFFE0),PacketSizeBytes+32);	
 			fifoqspi.putBuf((uint32_t)mas);
-		}
+		}else{
+            mas = (uint8_t*)0x32321233;
+        }
 		
 	}
 //	while( osMessageQueueGetCount(adc_buf) < NUMBER_BUF){
@@ -128,6 +132,8 @@ void fillQueue(){
 //			break;
 //	}
 }
+
+
 
 void udp_Task(void *argument) {	
     
@@ -149,20 +155,30 @@ void udp_Task(void *argument) {
 //	adc_buf = osMessageQueueNew(NUMBER_BUF, sizeof(uint8_t*), NULL);
 //	send_buf = osMessageQueueNew(NUMBER_BUF, sizeof(uint8_t*), NULL);
 	volatile int ff = 0;
+    volatile int16_t chEth[20];
+    volatile int16_t cnt = 0;
 	fillQueue();
 	osSemaphoreRelease(qspiSem_id);
 	while(1){
 		addr_send = fifoeth.getBuf();
-		p_buf = (netBuf*)addr_send;
+		//p_buf = (netBuf*)addr_send;
+        //printf("addr=%X pck = %d\n",addr_send,p_buf->counter);
 		//p_buf->type=tADCsmpl;
 		//p_buf->counter=p_buf->counter;
 		//cnt_adc++;	
 		//SCB_InvalidateDCache_by_Addr((uint32_t*)addr_send,1452);
-		nstat = netUDP_Send (udp_sock, &addr_pc, (uint8_t*)&p_buf->type, BUF_SIZE);
+        
+        //SCB_CleanInvalidateDCache_by_Addr((uint32_t*)addr_send,PacketSizeBytes+32);
+        
+		//SCB_InvalidateDCache_by_Addr((uint32_t*)(addr_send+1400),52);
+        //printf("Send\n");
+        /*chEth[cnt] = ((netBuf*)p_buf)->mas[89][4];
+        cnt = (cnt + 1)%20;*/
+		nstat = netUDP_Send (udp_sock, &addr_pc, (uint8_t*)addr_send, PacketSizeBytes);
 		if(nstat != netOK){
             
             if(nstat == netError){
-                HAL_NVIC_SystemReset();
+                //HAL_NVIC_SystemReset();
             }
 			ff++;
 		}

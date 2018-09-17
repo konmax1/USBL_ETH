@@ -1272,15 +1272,16 @@ Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M7.fp.dp --depen
 d=.\objects\startup_stm32h743xx.d -o.\objects\startup_stm32h743xx.o -I.\RTE\CMS
 IS -I.\RTE\Device\STM32H743ZITx -I.\RTE\Device\STM32H743ZITx\Drivers\STM32H7xx_
 HAL_Driver\Inc -I.\RTE\Device\STM32H743ZITx\STCubeGenerated\Inc -I.\RTE\_Target
-_1 -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Driver\Include -IC:\Keil_v5\ARM\
-PACK\ARM\CMSIS\5.3.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\
-RTOS2\Include -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\RTOS2\RTX\Include -IC
-:\Keil_v5\ARM\PACK\Keil\MDK-Middleware\7.7.0\Network\Include -IC:\Keil_v5\ARM\P
-ACK\Keil\STM32H7xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include -IC:\Kei
-l_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.1.0\Drivers\STM32H7xx_HAL_Driver\Inc --prede
-fine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 525" --predefine="
-_RTE_ SETA 1" --predefine="STM32H743xx SETA 1" --list=.\listings\startup_stm32h
-743xx.lst RTE\Device\STM32H743ZITx\startup_stm32h743xx.s
+_1 -IC:\Keil\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include -IC:\Keil\Keil
+_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\DSP\Include -IC:\Keil\Keil_v5\ARM\PACK\ARM\C
+MSIS\5.4.0\CMSIS\Driver\Include -IC:\Keil\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSI
+S\RTOS2\Include -IC:\Keil\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\RTOS2\RTX\Incl
+ude -IC:\Keil\Keil_v5\ARM\PACK\Keil\MDK-Middleware\7.7.0\Network\Include -IC:\K
+eil\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32H7xx
+\Include -IC:\Keil\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\STM32H7xx_
+HAL_Driver\Inc --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION S
+ETA 526" --predefine="_RTE_ SETA 1" --predefine="STM32H743xx SETA 1" --list=.\l
+istings\startup_stm32h743xx.lst RTE\Device\STM32H743ZITx\startup_stm32h743xx.s
 
 
 

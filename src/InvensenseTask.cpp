@@ -315,10 +315,12 @@ void InvensenseTask (void *argument) {
     int8_t accuracy;
     char ch[60];
     long inv_euler[3];
-    float inv_eulerF[3];
+    volatile float inv_eulerF[3];
     volatile int32_t cntLCD = 0;
     int32_t saveMPL=0;
     int32_t read_stat;
+		volatile int32_t nsss = netOK;
+		double convData = 1. / 65536;
     while (1) {
         do{
             read_stat = mpu_read_fifo(gyro_raw, accel_raw, &sensor_timestamp, &sensors, &more);
@@ -336,23 +338,32 @@ void InvensenseTask (void *argument) {
                 }
                 inv_execute_on_data();
                 inv_get_quaternion_float(&quatF[0]);
+								//debug data
+								inv_get_sensor_type_euler(&inv_euler[0], &accuracy,(inv_time_t*)&timestamp);
+								inv_eulerF[0] = inv_euler[0] * convData;
+								inv_eulerF[1] = inv_euler[1] * convData;
+								inv_eulerF[2] = inv_euler[2] * convData;			
+								//end of debug data
                 if(enSendQuat == 1){                    
-                    quat_buf = (netQuaternion*)netUDP_GetBuffer (16+HEADER_SIZE);
+                    quat_buf = (netQuaternion*)netUDP_GetBuffer (sizeof(netQuaternion));
                     quat_buf->header.type = tQuatsmpl;
                     quat_buf->header.counter = cntQuat++;
-                    memcpy(&quat_buf->w,&quatF[0],16);
+                    //memcpy(&quat_buf->w,&quatF[0],16);
+										arm_copy_q7((q7_t*)&quatF[0],(q7_t*)&quat_buf->w,16);
+										arm_copy_q7((q7_t*)&inv_eulerF[0],(q7_t*)&quat_buf->fiX,12);
                     /*quat_buf->w = quatF[0];
                     quat_buf->x = quatF[1];
                     quat_buf->y = quatF[2];
                     quat_buf->z = quatF[3];*/
-                    netUDP_Send (udp_sock, &addr_pc , (uint8_t*)quat_buf, 16+HEADER_SIZE);
+                    if(netUDP_Send (udp_sock, &addr_pc , (uint8_t*)quat_buf, sizeof(netQuaternion)) == netOK){
+											nsss++;
+								
+										}
                 }
                 /*cntLCD++;
                 if(cntLCD >10){
-                    inv_get_sensor_type_euler(&inv_euler[0], &accuracy,(inv_time_t*)&timestamp);
-                    inv_eulerF[0] = inv_euler[0] / 65536.;
-                    inv_eulerF[1] = inv_euler[1] / 65536.;
-                    inv_eulerF[2] = inv_euler[2] / 65536.;
+
+
                     cntLCD = 0;   
                     sprintf(ch,chAngle,inv_eulerF[0],inv_eulerF[1],inv_eulerF[2]);
                     LCD_SendCommand(LCD_ADDR, 0b11000000);

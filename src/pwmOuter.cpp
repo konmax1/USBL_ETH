@@ -26,11 +26,11 @@ void setPSP(uint8_t *mas){
 }
 
 void initSinTable(uint16_t arr){
-	arr = arr - 4;
+	//arr = arr - 4;
   float	step = (float) (2*PI) / Npoint;
 	for(volatile int i=0 ; i <= (Npoint * ( 1 + NsinMax) ) ; i++)
 	{
-		sinx[i] = (arm_sin_f32 ( i * step) * arr / 2) + (arr / 2); 
+		sinx[i] = (arm_sin_f32 ( i * step + (PI/8) ) * arr / 2 ) + (arr / 2); 
 	}
 }
 

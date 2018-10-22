@@ -76,6 +76,9 @@ struct netQuaternion{
     float x;
     float y;
     float z;
+		float fiX;
+		float fiY;
+		float fiZ;
 };
 
 void sendUartCommand(uint8_t* header, uint8_t* data,uint32_t len);

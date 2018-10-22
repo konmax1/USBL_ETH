@@ -95,11 +95,11 @@ DMA_HandleTypeDef hdma_uart4_rx;
 DMA_HandleTypeDef hdma_uart4_tx;
 
 /* USER CODE BEGIN PV */
-//#if defined ( __ARMCC_VERSION)  /* MDK ARM Compiler */
-//ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT] 		__attribute__((section(".ARM.__at_0x30040000"))); /* Ethernet Rx DMA Descriptors */
-//ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT] 		__attribute__((section(".ARM.__at_0x30040060"))); /* Ethernet Tx DMA Descriptors */
-//uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_MAX_PACKET_SIZE] __attribute__((section(".ARM.__at_0x30040200"))) ; /* Ethernet Receive Buffer */
-//#endif
+#if defined ( __ARMCC_VERSION)  /* MDK ARM Compiler */
+ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT] 		__attribute__((section(".ARM.__at_0x30040000"))); /* Ethernet Rx DMA Descriptors */
+ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT] 		__attribute__((section(".ARM.__at_0x30040060"))); /* Ethernet Tx DMA Descriptors */
+uint8_t Rx_Buff[ETH_RX_DESC_CNT][ETH_MAX_PACKET_SIZE] __attribute__((section(".ARM.__at_0x30040200"))) ; /* Ethernet Receive Buffer */
+#endif
 
 /* Private variables ---------------------------------------------------------*/
 extern osThreadId_t tid_Thread;                                      // thread id
